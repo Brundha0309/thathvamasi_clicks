@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Portfolio — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Our Work</span>
+    <h1 class="section-title light">Our <em>Portfolio</em></h1>
+  </div>
+</div>
+
+<section style="padding:60px 40px;background:var(--warm)">
+
+  <!-- FILTER -->
+  <div class="portfolio-filter">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="wedding">Wedding</button>
+    <button class="filter-btn" data-filter="prewedding">Pre-Wedding</button>
+    <button class="filter-btn" data-filter="birthday">Birthday</button>
+  </div>
+
+  <div class="portfolio-masonry">
+
+    {# ================= WEDDING (20) ================= #}
+    {% set wedding = [
+      ('https://images.unsplash.com/photo-1519741497674-611481863552?w=600','Wedding 1'),
+      ('https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600','Wedding 2'),
+      ('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600','Wedding 3'),
+      ('https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600','Wedding 4'),
+      ('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600','Wedding 5'),
+      ('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600','Wedding 6'),
+      ('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600','Wedding 7'),
+      ('https://images.unsplash.com/photo-1470019693664-1d202d2c0401?w=600','Wedding 8'),
+      ('https://images.unsplash.com/photo-1550005809-91ad75fb315f?w=600','Wedding 9'),
+      ('https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600','Wedding 10'),
+      ('https://images.unsplash.com/photo-1594897030264-ab7d87efc473?w=600','Wedding 11'),
+      ('https://images.unsplash.com/photo-1623339080098-64bc2e04e4d7?w=600','Wedding 12'),
+      ('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600','Wedding 13'),
+      ('https://images.unsplash.com/photo-1513278974582-3e1b4a4fa21e?w=600','Wedding 14'),
+      ('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600','Wedding 15'),
+      ('https://images.unsplash.com/photo-1444254290-64cf33acbc43?w=600','Wedding 16'),
+      ('https://images.unsplash.com/photo-1487528278747-ba99ed528ebc?w=600','Wedding 17'),
+      ('https://images.unsplash.com/photo-1509927083803-4bd519298ac4?w=600','Wedding 18'),
+      ('https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600','Wedding 19'),
+      ('https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600','Wedding 20')
+    ] %}
+
+    {% for img,caption in wedding %}
+    <div class="portfolio-item" data-category="wedding">
+      <img src="{{ img }}" alt="{{ caption }}">
+    </div>
+    {% endfor %}
+
+
+    {# ================= PREWEDDING (20) ================= #}
+    {% set prewedding = [
+      ('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600','Pre 1'),
+      ('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600','Pre 2'),
+      ('https://images.unsplash.com/photo-1586104237026-87fcdc3cd72e?w=600','Pre 3'),
+      ('https://images.unsplash.com/photo-1543854589-fcc0e08e4ff4?w=600','Pre 4'),
+      ('https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600','Pre 5'),
+      ('https://images.unsplash.com/photo-1533709752211-118fcaf03312?w=600','Pre 6'),
+      ('https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=600','Pre 7'),
+      ('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600','Pre 8'),
+      ('https://images.unsplash.com/photo-1549416878-b2f1f7b74f15?w=600','Pre 9'),
+      ('https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=600','Pre 10'),
+      ('https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=600','Pre 11'),
+      ('https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=600','Pre 12'),
+      ('https://images.unsplash.com/photo-1484894096960-d18c8567d174?w=600','Pre 13'),
+      ('https://images.unsplash.com/photo-1458442310124-dde6edb43d10?w=600','Pre 14'),
+      ('https://images.unsplash.com/photo-1453301109223-4f60de7af3eb?w=600','Pre 15'),
+      ('https://images.unsplash.com/photo-1440778303588-435521a205bc?w=600','Pre 16'),
+      ('https://images.unsplash.com/photo-1430990480609-2bf7c02a6b1a?w=600','Pre 17'),
+      ('https://images.unsplash.com/photo-1428342319940-7ba09dddb0f3?w=600','Pre 18'),
+      ('https://images.unsplash.com/photo-1424324895045-4a22a52ba5b9?w=600','Pre 19'),
+      ('https://images.unsplash.com/photo-1415260024741-a4b6ef60d5e4?w=600','Pre 20')
+    ] %}
+
+    {% for img,caption in prewedding %}
+    <div class="portfolio-item" data-category="prewedding">
+      <img src="{{ img }}" alt="{{ caption }}">
+    </div>
+    {% endfor %}
+
+
+    {# ================= BIRTHDAY (20) ================= #}
+    {% set birthday = [
+      ('https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=600','Birthday 1'),
+      ('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600','Birthday 2'),
+      ('https://images.unsplash.com/photo-1558636508-e0969431e23a?w=600','Birthday 3'),
+      ('https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600','Birthday 4'),
+      ('https://images.unsplash.com/photo-1602631985686-1bb0e6a8696e?w=600','Birthday 5'),
+      ('https://images.unsplash.com/photo-1595187138859-7fa28a5ec9c0?w=600','Birthday 6'),
+      ('https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600','Birthday 7'),
+      ('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600','Birthday 8'),
+      ('https://images.unsplash.com/photo-1515169067868-5387ec356754?w=600','Birthday 9'),
+      ('https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600','Birthday 10'),
+      ('https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=600','Birthday 11'),
+      ('https://images.unsplash.com/photo-1471967183320-ee018f6e114a?w=600','Birthday 12'),
+      ('https://images.unsplash.com/photo-1461595993689-1bcb9b0c64a7?w=600','Birthday 13'),
+      ('https://images.unsplash.com/photo-1454328930778-0e51b18f8f53?w=600','Birthday 14'),
+      ('https://images.unsplash.com/photo-1453791052107-5c843da62d97?w=600','Birthday 15'),
+      ('https://images.unsplash.com/photo-1448375240586-882707db888b?w=600','Birthday 16'),
+      ('https://images.unsplash.com/photo-1433878455169-4698e60005b1?w=600','Birthday 17'),
+      ('https://images.unsplash.com/photo-1429198739803-7db875882052?w=600','Birthday 18'),
+      ('https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?w=600','Birthday 19'),
+      ('https://images.unsplash.com/photo-1405827064693-a7ef9e9f0f3b?w=600','Birthday 20')
+    ] %}
+
+    {% for img,caption in birthday %}
+    <div class="portfolio-item" data-category="birthday">
+      <img src="{{ img }}" alt="{{ caption }}">
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+
+    let filter = this.dataset.filter;
+
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      item.style.display =
+        (filter === 'all' || item.dataset.category === filter)
+        ? 'block'
+        : 'none';
+    });
+  });
+});
+</script>
+
+{% endblock %}

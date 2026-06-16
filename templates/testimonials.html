@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Testimonials — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Client Love</span>
+    <h1 class="section-title light">What Our <em>Clients Say</em></h1>
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><span style="color:var(--gold)">Testimonials</span></div>
+  </div>
+</div>
+
+<section class="testimonials-section" style="padding:80px 40px">
+  <div class="text-center reveal" style="margin-bottom:50px">
+    <span class="section-label">Real Stories</span>
+    <h2 class="section-title">500+ Happy <em>Families</em></h2>
+    <div class="section-divider center"></div>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto;font-size:0.88rem;line-height:1.7">Every review below is a memory we helped create — and that fills our hearts with joy.</p>
+  </div>
+
+  <!-- Stats strip -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;max-width:700px;margin:0 auto 60px;text-align:center" class="reveal">
+    {% for num,label in [('500+','Happy Clients'),('1000+','Projects'),('5★','Avg Rating'),('5+','Years')] %}
+    <div style="background:var(--white);border-radius:8px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06);border-top:3px solid var(--gold)">
+      <div style="font-family:var(--ff-display);font-size:2.2rem;font-weight:700;color:var(--gold)">{{ num }}</div>
+      <div style="font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">{{ label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- DB Testimonials (if any) -->
+  {% if reviews %}
+  <div class="testimonials-grid" style="max-width:1100px;margin:0 auto 50px">
+    {% for r in reviews %}
+    <div class="testimonial-card reveal">
+      <div class="stars">{{ '★' * r.rating }}{{ '☆' * (5 - r.rating) }}</div>
+      <p class="testimonial-text">"{{ r.message }}"</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">{{ r.name[0] }}</div>
+        <div><div class="author-name">{{ r.name }}</div><div class="author-loc">{{ r.location or '' }}</div></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Static testimonials -->
+  <div class="testimonials-grid" style="max-width:1100px;margin:0 auto">
+    {% set static_reviews = [
+      ('Priya & Arun','Coimbatore','Wedding','Amazing work! Our wedding photos were absolutely stunning. Every single moment was captured beautifully. The team was professional, creative, and made us feel so comfortable. We received compliments from all our guests about the photography!'),
+      ('Karthik S','Salem','Baby Shoot','Professional and punctual. The team made us feel so comfortable throughout our newborn shoot. The results exceeded our expectations! Every tiny detail was captured with such love. Highly recommended!'),
+      ('Meena Devi','Chennai','Maternity','Our maternity shoot was magical. They have a special way of bringing out the emotions — the photos brought tears to our eyes. Such a warm and talented team!'),
+      ('Rajesh & Sundari','Trichy','Pre-Wedding','The pre-wedding shoot was beyond our dreams. They scouted the perfect locations and the editing was top-notch. We will treasure these photos forever.'),
+      ('Anitha K','Madurai','Birthday','Our son\'s birthday was captured so beautifully. Every candid moment, every smile, every tear of joy — it\'s all there. Thank you Thathvamasi Clicks!'),
+      ('Venkatesh M','Erode','Corporate','Used them for our company annual day event. Absolutely professional. The event photos were delivered on time and the quality was outstanding. Will definitely hire again.'),
+      ('Lakshmi & Mohan','Tiruppur','Anniversary','Our 10th anniversary shoot was breathtaking. They made us feel like celebrities. The golden hour photos are our new screensavers!'),
+      ('Deepa R','Namakkal','Naming Ceremony','A very traditional and emotional day — perfectly documented. They captured every ritual beautifully. Our family loved the album.'),
+      ('Suresh Family','Salem','Family Shoot','Our family portrait session was fun and relaxed. The photographer has a great way with children — our kids actually enjoyed it! Beautiful results.'),
+      ('Kavitha N','Coimbatore','Puberty Ceremony','Such a traditional and meaningful event, and they captured it with so much respect and beauty. The photos are priceless. Thank you from the bottom of our hearts.'),
+      ('Balaji & Preethi','Chennai','Wedding','From the mehendi to the reception, every moment was captured with such detail and artistry. The candid shots are our favourites — so natural and emotional.'),
+      ('Suganya M','Madurai','Baby Shower','The baby shower photos are adorable! The decoration shots, the emotional moments — everything is perfectly captured. We can\'t stop looking at the album!'),
+    ] %}
+    {% for name,loc,event,msg in static_reviews %}
+    <div class="testimonial-card reveal">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div class="stars">★★★★★</div>
+        <span style="font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(212,175,55,0.1);padding:3px 10px;border-radius:20px">{{ event }}</span>
+      </div>
+      <p class="testimonial-text">"{{ msg }}"</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">{{ name[0] }}</div>
+        <div><div class="author-name">{{ name }}</div><div class="author-loc">{{ loc }}</div></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- SUBMIT YOUR REVIEW -->
+<section style="background:var(--navy);padding:80px 40px">
+  <div class="text-center reveal" style="margin-bottom:40px">
+    <span class="section-label">Share Your Experience</span>
+    <h2 class="section-title light">Leave Us a <em>Review</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div class="form-container" style="max-width:600px">
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="revName" class="form-control" placeholder="e.g. Priya & Arun"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Location</label><input type="text" id="revLoc" class="form-control" placeholder="City, State"/></div>
+      <div class="form-group">
+        <label>Rating</label>
+        <select id="revRating" class="form-control">
+          <option value="5">★★★★★ — Excellent</option>
+          <option value="4">★★★★☆ — Very Good</option>
+          <option value="3">★★★☆☆ — Good</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Your Review</label>
+      <textarea id="revMsg" class="form-control" rows="4" placeholder="Share your experience with Thathvamasi Clicks..."></textarea>
+    </div>
+    <div class="form-actions" style="justify-content:flex-start">
+      <button class="btn-submit" onclick="submitReview()">Submit Review ✦</button>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px 40px;text-align:center;background:var(--warm)">
+  <h2 class="section-title" style="margin-bottom:24px">Ready to Create Your Own <em>Memory?</em></h2>
+  <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book Your Session</a>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function submitReview() {
+  const name = document.getElementById('revName').value.trim();
+  const loc  = document.getElementById('revLoc').value.trim();
+  const rating = document.getElementById('revRating').value;
+  const msg  = document.getElementById('revMsg').value.trim();
+  if (!name || !msg) { showToast('Please fill in your name and review.','error'); return; }
+  const res = await fetch('/api/review', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({name,location:loc,rating:parseInt(rating),message:msg})
+  });
+  const data = await res.json();
+  if(data.success){ showToast('Thank you for your review! 🙏','success');
+    document.getElementById('revName').value=''; document.getElementById('revLoc').value='';
+    document.getElementById('revMsg').value='';
+  } else { showToast('Something went wrong. Please try again.','error'); }
+}
+</script>
+{% endblock %}

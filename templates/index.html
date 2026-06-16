@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Thathvamasi Clicks — Capturing Moments, Creating Memories{% endblock %}
+
+{% block content %}
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">✦ Professional Photography Studio ✦</p>
+    <h1 class="hero-title">Capturing <em>Moments</em>,<br>Creating Memories</h1>
+    <span class="hero-brand">📷 Thathvamasi Clicks 📷</span>
+    <p class="hero-sub">We transform your most cherished celebrations into timeless visual stories — told with artistry, emotion, and love.</p>
+    <div class="hero-btns">
+      <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book a Session</a>
+      <a href="{{ url_for('portfolio') }}" class="btn-outline">🖼 View Portfolio</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Happy Clients</div></div>
+    <div class="stat-item"><div class="stat-num">1000+</div><div class="stat-label">Projects Done</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+  </div>
+  <div class="scroll-hint"><span></span></div>
+</section>
+
+<!-- ══ SERVICES PREVIEW ══ -->
+<section style="background:var(--warm);padding:100px 40px">
+  <div class="text-center reveal">
+    <span class="section-label">What We Do</span>
+    <h2 class="section-title">Our <em>Specialties</em></h2>
+    <div class="section-divider center"></div>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto;font-size:0.88rem;line-height:1.7">From intimate family portraits to grand wedding celebrations — we cover every milestone with passion and precision.</p>
+  </div>
+  <div class="services-grid" style="max-width:1200px;margin:50px auto 0">
+    {% set svcs = [
+      ('💍','Wedding Photography','Timeless Elegance','https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80'),
+      ('🎂','Birthday Events','Joyful Memories','https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=600&q=80'),
+      ('👶','Baby & Newborn','Precious Beginnings','https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&q=80'),
+      ('🤰','Maternity Shoot','Beautiful Journey','https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=600&q=80'),
+      ('💑','Pre-Wedding','Love Stories','https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80'),
+      ('🚁','Drone Photography','Aerial Perspectives','https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80'),
+    ] %}
+    {% for icon,name,tag,img in svcs %}
+    <div class="service-card reveal" onclick="location.href='{{ url_for('services') }}'">
+      <img src="{{ img }}" alt="{{ name }}" loading="lazy"/>
+      <div class="service-card-overlay">
+        <div class="service-card-icon">{{ icon }}</div>
+        <div class="service-card-name">{{ name }}</div>
+        <div class="service-card-tag">{{ tag }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center" style="margin-top:40px">
+    <a href="{{ url_for('services') }}" class="btn-primary">View All Services →</a>
+  </div>
+</section>
+
+<!-- ══ WHY CHOOSE US ══ -->
+<section class="why-strip">
+  <div class="text-center reveal">
+    <span class="section-label">Why Thathvamasi</span>
+    <h2 class="section-title light">Why <em>Choose Us</em>?</h2>
+    <div class="section-divider center" style="background:rgba(212,175,55,0.4)"></div>
+  </div>
+  <div class="why-grid">
+    <div class="why-item reveal"><div class="why-icon">🏆</div><div class="why-title">5+ Years Experience</div><div class="why-desc">Skilled & experienced photographers who know how to capture your story</div></div>
+    <div class="why-item reveal"><div class="why-icon">🎨</div><div class="why-title">Professional Editing</div><div class="why-desc">High-end retouching & colour grading for perfect, gallery-worthy results</div></div>
+    <div class="why-item reveal"><div class="why-icon">⚡</div><div class="why-title">Fast Delivery</div><div class="why-desc">On-time delivery guaranteed — your memories, on schedule</div></div>
+    <div class="why-item reveal"><div class="why-icon">🖼️</div><div class="why-title">High Resolution</div><div class="why-desc">Premium quality images you can print at any size beautifully</div></div>
+    <div class="why-item reveal"><div class="why-icon">💰</div><div class="why-title">Affordable Packages</div><div class="why-desc">Best quality at reasonable prices — value that exceeds expectations</div></div>
+    <div class="why-item reveal"><div class="why-icon">😊</div><div class="why-title">Friendly Team</div><div class="why-desc">Comfortable, fun experience — we make your shoot enjoyable</div></div>
+  </div>
+</section>
+
+<!-- ══ PORTFOLIO TEASER ══ -->
+<section style="padding:100px 40px;background:var(--warm)">
+  <div class="text-center reveal">
+    <span class="section-label">Our Work</span>
+    <h2 class="section-title">Featured <em>Portfolio</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:40px auto 0;max-width:1100px">
+    {% set imgs = [
+      'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=500&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=500&q=80',
+      'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=500&q=80',
+      'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=500&q=80',
+      'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=500&q=80',
+      'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=500&q=80',
+    ] %}
+    {% for img in imgs %}
+    <div class="portfolio-item reveal" style="aspect-ratio:1" onclick="openLightbox('{{ img }}')">
+      <img src="{{ img }}" alt="Portfolio" loading="lazy" style="width:100%;height:100%;object-fit:cover"/>
+      <div class="portfolio-item-overlay"><span>🔍</span></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center" style="margin-top:40px">
+    <a href="{{ url_for('portfolio') }}" class="btn-primary">Explore Full Portfolio →</a>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS TEASER ══ -->
+<section class="testimonials-section">
+  <div class="text-center reveal">
+    <span class="section-label">Kind Words</span>
+    <h2 class="section-title">What Our <em>Clients Say</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div class="testimonials-grid" style="max-width:1000px;margin:50px auto 0">
+    {% set reviews = [
+      ('Priya & Arun','Coimbatore','Amazing work! Our wedding photos were absolutely stunning. Every moment was captured beautifully. Highly recommend!'),
+      ('Karthik S','Salem','Professional and punctual. The team made us feel so comfortable throughout. The results exceeded our expectations!'),
+      ('Meena Devi','Chennai','Our baby shoot was magical. They have a special way with children — the photos brought tears to our eyes.'),
+    ] %}
+    {% for name,loc,msg in reviews %}
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"{{ msg }}"</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">{{ name[0] }}</div>
+        <div><div class="author-name">{{ name }}</div><div class="author-loc">{{ loc }}</div></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center" style="margin-top:40px">
+    <a href="{{ url_for('testimonials') }}" class="btn-primary">Read All Reviews →</a>
+  </div>
+</section>
+
+<!-- ══ CTA STRIP ══ -->
+<section style="background:linear-gradient(135deg,var(--navy) 0%,#2a1a00 100%);padding:80px 40px;text-align:center">
+  <span class="section-label" style="justify-content:center;display:block">Ready to Create Magic?</span>
+  <h2 class="section-title light" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px">Let's Capture Your <em>Special Moments</em></h2>
+  <p style="color:rgba(255,255,255,0.5);margin-bottom:32px;font-size:0.9rem">Book your session today and let's create memories together.</p>
+  <a href="{{ url_for('booknow') }}" class="btn-primary" style="font-size:0.85rem;padding:16px 40px">📅 Book Your Session Now</a>
+</section>
+{% endblock %}

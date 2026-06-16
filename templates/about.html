@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}About Us — Thathvamasi Clicks{% endblock %}
+{% block meta_desc %}Learn about Thathvamasi Clicks — our story, passion, and commitment to capturing your precious moments.{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Our Story</span>
+    <h1 class="section-title light">About <em>Thathvamasi Clicks</em></h1>
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><span style="color:var(--gold)">About</span></div>
+  </div>
+</div>
+
+<!-- ── INTRO ── -->
+<section style="padding:100px 40px;background:var(--warm)">
+  <div class="about-grid">
+    <div class="about-image-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=700&q=80" alt="Photographer at work"/>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">Passionate <em>Storytellers</em> with a Camera</h2>
+      <div class="section-divider"></div>
+      <p>Welcome to <strong>Thathvamasi Clicks</strong> — a boutique photography studio dedicated to capturing life's most meaningful moments with artistry and heart. Our name, rooted in Tamil culture, means <em>"That which you are"</em> — reflecting our belief that authentic moments define us.</p>
+      <p>Founded with a deep love for visual storytelling, we specialize in weddings, family portraits, corporate events, and everything in between. With over 5 years of experience and 500+ happy clients, we bring technical excellence and genuine warmth to every shoot.</p>
+      <p>We don't just take photographs — we create timeless memories that you and your family will cherish for generations.</p>
+      <div class="about-values">
+        <div class="value-item"><div class="value-icon">❤️</div><div><div class="value-title">Passion First</div><div class="value-desc">Every shoot is treated as our own memory</div></div></div>
+        <div class="value-item"><div class="value-icon">🎯</div><div><div class="value-title">Attention to Detail</div><div class="value-desc">No perfect moment goes uncaptured</div></div></div>
+        <div class="value-item"><div class="value-icon">🤝</div><div><div class="value-title">Client Bond</div><div class="value-desc">We make you feel relaxed and celebrated</div></div></div>
+        <div class="value-item"><div class="value-icon">🏅</div><div><div class="value-title">Premium Quality</div><div class="value-desc">Gallery-worthy images every single time</div></div></div>
+      </div>
+      <div style="margin-top:32px">
+        <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book a Session</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section style="padding:100px 40px;background:var(--ivory)">
+  <div class="text-center reveal">
+    <span class="section-label">The People Behind the Lens</span>
+    <h2 class="section-title">Meet Our <em>Team</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;max-width:900px;margin:50px auto 0">
+    {% set team = [
+      ('Lead Photographer','Creative director & principal photographer with 5+ years. Specializes in weddings & candid moments.','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'),
+      ('Candid Specialist','Expert at capturing raw emotions. Brings a documentary style to every event.','https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'),
+      ('Video & Edit Expert','Cinematic videographer & post-production wizard. Creates breathtaking visual stories.','https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80'),
+    ] %}
+    {% for role,desc,img in team %}
+    <div class="testimonial-card reveal" style="text-align:center;border-left:none;border-top:3px solid var(--gold)">
+      <img src="{{ img }}" alt="{{ role }}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 16px;display:block;border:3px solid var(--gold)"/>
+      <div class="author-name" style="font-size:1rem;margin-bottom:4px">{{ role }}</div>
+      <div class="author-loc" style="margin-bottom:12px">Thathvamasi Clicks</div>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">{{ desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ── JOURNEY ── -->
+<section style="padding:100px 40px;background:var(--navy)">
+  <div class="text-center reveal">
+    <span class="section-label">Our Journey</span>
+    <h2 class="section-title light">Milestones That <em>Define Us</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div style="max-width:700px;margin:50px auto 0;position:relative">
+    <div style="position:absolute;left:20px;top:0;bottom:0;width:1px;background:rgba(212,175,55,0.3)"></div>
+    {% set milestones = [('2019','Studio Founded','Started with a single camera and an immense passion for visual storytelling.'),('2020','First 100 Clients','Reached our first major milestone — 100 happy families and counting.'),('2021','Drone Added','Expanded services with aerial drone photography for breathtaking perspectives.'),('2022','500+ Projects','Celebrated 500+ successfully completed projects across Tamil Nadu.'),('2023','Team Expansion','Grew to a full team of specialists — photographers, videographers, and editors.'),('2024','1000+ Memories','Over 1000 precious memories captured and delivered to our beloved clients.')] %}
+    {% for year,title,desc in milestones %}
+    <div class="reveal" style="display:flex;gap:30px;align-items:flex-start;margin-bottom:36px;padding-left:50px;position:relative">
+      <div style="position:absolute;left:8px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;color:var(--navy)">✦</div>
+      <div>
+        <div style="font-size:0.65rem;letter-spacing:3px;color:var(--gold);font-weight:700;margin-bottom:4px">{{ year }}</div>
+        <div style="font-family:var(--ff-display);font-size:1.2rem;color:var(--white);font-weight:600;margin-bottom:6px">{{ title }}</div>
+        <div style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.6">{{ desc }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section style="padding:80px 40px;text-align:center;background:var(--warm)">
+  <span class="section-label" style="display:block">Ready to Work With Us?</span>
+  <h2 class="section-title" style="margin-bottom:16px">Let's Create Something <em>Beautiful</em> Together</h2>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+    <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book a Session</a>
+    <a href="{{ url_for('contact') }}" class="btn-outline" style="color:var(--navy);border-color:var(--navy)">✉️ Get in Touch</a>
+  </div>
+</section>
+{% endblock %}

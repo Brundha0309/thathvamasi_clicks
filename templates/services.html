@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Services — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">What We Offer</span>
+    <h1 class="section-title light">Our <em>Services</em></h1>
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><span style="color:var(--gold)">Services</span></div>
+  </div>
+</div>
+
+<section style="padding:80px 40px;background:var(--warm)">
+  <div class="text-center reveal" style="margin-bottom:20px">
+    <p style="color:var(--muted);max-width:600px;margin:0 auto;font-size:0.9rem;line-height:1.7">From intimate family moments to grand celebrations — we cover every milestone with creativity, precision, and heart.</p>
+  </div>
+
+  <div class="services-full-grid" style="max-width:1200px;margin:0 auto">
+
+    {% set all_services = [
+      ('💍','Wedding Photography','wedding','Timeless, elegant documentation of your most cherished day — from mehndi to reception, every ritual captured with love.',
+       'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80'),
+      ('🤞','Pre-Wedding Shoot','pre-wedding','Romantic couple sessions in stunning locations that tell your love story before the big day begins.',
+       'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80'),
+      ('🎂','Birthday Shoot','birthday','Vibrant, joyful birthday celebrations captured frame by frame — from the first candle to the last dance.',
+       'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=600&q=80'),
+      ('🤰','Maternity Shoot','maternity','Beautiful, glowing maternity sessions celebrating the journey of motherhood with grace and emotion.',
+       'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=600&q=80'),
+      ('👶','Newborn Shoot','newborn','Delicate, heartwarming newborn portraits capturing the miracle of new life in its purest form.',
+       'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&q=80'),
+      ('🌸','Puberty Ceremony','puberty','Traditional coming-of-age ceremonies documented with cultural sensitivity and joyful energy.',
+       'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=600&q=80'),
+      ('💕','Anniversary Celebration','anniversary','Romantic anniversary shoots that reignite the magic of your love story, year after year.',
+       'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80'),
+      ('🚁','Drone Photography','drone','Breathtaking aerial photography and videography that reveals the grandeur of your event from above.',
+       'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80'),
+      ('🍼','Naming Ceremony','naming','Auspicious naming ceremonies captured with warmth — the first chapter of your child\'s story in pictures.',
+       'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&q=80'),
+      ('🏠','House Warming','housewarming','Griha Pravesh and house warming celebrations preserved with all the traditional rituals and family joy.',
+       'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=80'),
+      ('👗','Modelling Shoot','modelling','Professional modelling portfolios and fashion shoots with expert lighting and artistic direction.',
+       'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80'),
+      ('📦','Product Photography','product','Clean, striking product images that tell your brand story and drive sales — for e-commerce & campaigns.',
+       'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80'),
+      ('🏢','Corporate Events','corporate','Professional event coverage, headshots, and brand imagery for businesses and corporate gatherings.',
+       'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80'),
+      ('👨‍👩‍👧','Family Shoot','family','Warm, natural family portraits that capture the bonds, personalities, and love within your family.',
+       'https://images.unsplash.com/photo-1511895426328-dc8714191011?w=600&q=80'),
+      ('🤱','Baby Shower','babyshower','Delightful baby shower celebrations documented with all the decorations, emotions, and happy tears.',
+       'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=600&q=80'),
+    ] %}
+
+    {% for icon,name,cat,desc,img in all_services %}
+    <div class="service-full-card reveal">
+      <div style="overflow:hidden;height:220px">
+        <img src="{{ img }}" alt="{{ name }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s"/>
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-emoji">{{ icon }}</div>
+        <div class="service-card-title">{{ name }}</div>
+        <p class="service-card-desc">{{ desc }}</p>
+        <a href="{{ url_for('booknow') }}" class="btn-primary" style="font-size:0.72rem;padding:10px 20px;margin-top:14px;display:inline-flex">Book This →</a>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--navy);padding:80px 40px;text-align:center">
+  <span class="section-label" style="display:block">Ready to Start?</span>
+  <h2 class="section-title light" style="margin-bottom:16px">Let's Plan Your <em>Perfect Shoot</em></h2>
+  <p style="color:rgba(255,255,255,0.5);margin-bottom:32px;font-size:0.9rem">Every service is customizable to your vision and budget.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book Now</a>
+    <a href="{{ url_for('pricing') }}" class="btn-outline">💰 View Pricing</a>
+  </div>
+</section>
+{% endblock %}

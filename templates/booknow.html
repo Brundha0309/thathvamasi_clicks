@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+{% block title %}Book Now — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Reserve Your Date</span>
+    <h1 class="section-title light">Book Your <em>Session</em></h1>
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><span style="color:var(--gold)">Book Now</span></div>
+  </div>
+</div>
+
+<section class="form-section" style="padding:80px 40px">
+  <div style="max-width:850px;margin:0 auto">
+
+    <!-- Step Indicator -->
+    <div class="step-indicator" id="stepIndicator">
+      <div class="step-dot active" id="dot1"><span>1</span><span class="step-label">Details</span></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot" id="dot2"><span>2</span><span class="step-label">Event</span></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot" id="dot3"><span>3</span><span class="step-label">Date &amp; Venue</span></div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot" id="dot4"><span>4</span><span class="step-label">Package</span></div>
+      <div class="step-line" id="line4"></div>
+      <div class="step-dot" id="dot5"><span>5</span><span class="step-label">Confirm</span></div>
+    </div>
+
+    <div class="form-container">
+
+      <!-- STEP 1: Personal Details -->
+      <div class="form-step active" id="step1">
+        <h3 style="font-family:var(--ff-display);font-size:1.6rem;color:var(--white);margin-bottom:6px">Personal <em style="color:var(--gold)">Details</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:28px">Tell us about yourself so we can tailor the experience for you.</p>
+        <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" class="form-control" placeholder="Your full name"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Mobile Number *</label><input type="tel" id="mobile" class="form-control" placeholder="+91 XXXXX XXXXX"/></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" id="email" class="form-control" placeholder="your@email.com"/></div>
+        </div>
+        <div class="form-actions"><button class="btn-next" onclick="nextStep(1)">Next: Event Type →</button></div>
+      </div>
+
+      <!-- STEP 2: Event Type -->
+      <div class="form-step" id="step2">
+        <h3 style="font-family:var(--ff-display);font-size:1.6rem;color:var(--white);margin-bottom:6px">Event <em style="color:var(--gold)">Type</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:28px">What occasion are we capturing?</p>
+        <div class="form-group"><label>Select Event Type *</label>
+          <select id="eventType" class="form-control">
+            <option value="">— Select event type —</option>
+            <option value="Wedding">💍 Wedding</option>
+            <option value="Pre-Wedding">🤞 Pre-Wedding</option>
+            <option value="Engagement">💑 Engagement</option>
+            <option value="Birthday">🎂 Birthday</option>
+            <option value="Baby Shoot">👶 Baby Shoot</option>
+            <option value="Newborn Shoot">🍼 Newborn Shoot</option>
+            <option value="Maternity Shoot">🤰 Maternity Shoot</option>
+            <option value="Baby Shower">🤱 Baby Shower</option>
+            <option value="Puberty Ceremony">🌸 Puberty Ceremony</option>
+            <option value="Naming Ceremony">🏷️ Naming Ceremony</option>
+            <option value="Anniversary">💕 Anniversary</option>
+            <option value="House Warming">🏠 House Warming</option>
+            <option value="Corporate Event">🏢 Corporate Event</option>
+            <option value="Family Shoot">👨‍👩‍👧 Family Shoot</option>
+            <option value="Modelling">👗 Modelling</option>
+            <option value="Product Photography">📦 Product Photography</option>
+            <option value="Portrait Shoot">🎭 Portrait Shoot</option>
+            <option value="Drone Photography">🚁 Drone Photography</option>
+            <option value="Other">✨ Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Special Requests / Notes</label>
+          <textarea id="specialRequests" class="form-control" rows="3" placeholder="Any specific shots, themes, or requirements you'd like us to know..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-prev" onclick="prevStep(2)">← Back</button>
+          <button class="btn-next" onclick="nextStep(2)">Next: Date &amp; Venue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Date, Time & Location -->
+      <div class="form-step" id="step3">
+        <h3 style="font-family:var(--ff-display);font-size:1.6rem;color:var(--white);margin-bottom:6px">Date, Time &amp; <em style="color:var(--gold)">Location</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:28px">When and where is the event?</p>
+        <div class="form-group"><label>Event Date *</label><input type="date" id="eventDate" class="form-control"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Event Start Time *</label><input type="time" id="startTime" class="form-control"/></div>
+          <div class="form-group"><label>Event End Time *</label><input type="time" id="endTime" class="form-control"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Venue Name *</label><input type="text" id="venueName" class="form-control" placeholder="e.g. Sri Murugan Mahal"/></div>
+          <div class="form-group"><label>City *</label><input type="text" id="city" class="form-control" placeholder="e.g. Salem"/></div>
+        </div>
+        <div class="form-group"><label>Full Address *</label><textarea id="fullAddress" class="form-control" rows="2" placeholder="Complete address including street, landmark, pincode..."></textarea></div>
+        <div class="form-actions">
+          <button class="btn-prev" onclick="prevStep(3)">← Back</button>
+          <button class="btn-next" onclick="nextStep(3)">Next: Select Package →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Package Selection -->
+      <div class="form-step" id="step4">
+        <h3 style="font-family:var(--ff-display);font-size:1.6rem;color:var(--white);margin-bottom:6px">Package <em style="color:var(--gold)">Selection</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:28px">Choose the package that suits your celebration best.</p>
+
+        <div class="pkg-cards">
+          <!-- Standard -->
+          <label class="pkg-select-card" id="pkgStandard" onclick="selectPackage('standard')">
+            <input type="radio" name="package" value="standard"/>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+              <div>
+                <div class="pkg-select-name">Standard Package</div>
+                <div class="pkg-select-price">₹40,000</div>
+              </div>
+              <div style="font-size:0.65rem;letter-spacing:2px;background:rgba(212,175,55,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;height:fit-content">BASIC</div>
+            </div>
+            <div class="pkg-select-features">✦ 1 Traditional Photographer &nbsp; ✦ 1 Traditional Videographer<br>✦ 220 Images Album &nbsp; ✦ Image Soft Copies (Pendrive)<br>✦ Video Editing Output with Pendrive &nbsp; ✦ Outdoor Shoot Free &nbsp; ✦ 2 Photo Frames</div>
+          </label>
+
+          <!-- Classic -->
+          <label class="pkg-select-card" id="pkgClassic" onclick="selectPackage('classic')" style="border-color:var(--gold);background:rgba(212,175,55,0.06)">
+            <input type="radio" name="package" value="classic"/>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+              <div>
+                <div class="pkg-select-name" style="color:var(--gold)">Classic Package</div>
+                <div class="pkg-select-price">₹55,000</div>
+              </div>
+              <div style="font-size:0.65rem;letter-spacing:2px;background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:20px;height:fit-content;font-weight:700">POPULAR</div>
+            </div>
+            <div class="pkg-select-features">✦ 1 Traditional + 1 Candid Photographer &nbsp; ✦ 1 Traditional Videographer<br>✦ 250 Images Premium Album &nbsp; ✦ Image Soft Copies (Pendrive)<br>✦ Video Editing Output with Pendrive &nbsp; ✦ Outdoor Shoot Free &nbsp; ✦ 2 Photo Frames</div>
+          </label>
+
+          <!-- Elite -->
+          <label class="pkg-select-card" id="pkgElite" onclick="selectPackage('elite')">
+            <input type="radio" name="package" value="elite"/>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+              <div>
+                <div class="pkg-select-name">Elite Package</div>
+                <div class="pkg-select-price">₹75,000</div>
+              </div>
+              <div style="font-size:0.65rem;letter-spacing:2px;background:rgba(212,175,55,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;height:fit-content">LUXURY</div>
+            </div>
+            <div class="pkg-select-features">✦ 1 Traditional + 1 Candid Photographer &nbsp; ✦ 1 Traditional + 1 Candid Videographer<br>✦ 250 Images Album (2 copies) &nbsp; ✦ Image Soft Copies (Pendrive)<br>✦ Cinematic Video Editing + Pendrive &nbsp; ✦ Outdoor Shoot Free &nbsp; ✦ Priority Delivery</div>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-prev" onclick="prevStep(4)">← Back</button>
+          <button class="btn-next" onclick="nextStep(4)">Review &amp; Confirm →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Confirmation -->
+      <div class="form-step" id="step5">
+        <h3 style="font-family:var(--ff-display);font-size:1.6rem;color:var(--white);margin-bottom:6px">Review &amp; <em style="color:var(--gold)">Confirm</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-bottom:28px">Please review your booking details before submitting.</p>
+        <div id="summaryBox" style="background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:24px;margin-bottom:24px;font-size:0.85rem;line-height:2;color:rgba(255,255,255,0.8)"></div>
+        <div style="background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:6px;padding:16px;margin-bottom:24px">
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;color:rgba(255,255,255,0.7);font-size:0.8rem;line-height:1.5">
+            <input type="checkbox" id="agreeTerms" style="margin-top:2px;accent-color:var(--gold)"/>
+            I agree that a 20% advance is required to confirm the booking. I've read and accept Thathvamasi Clicks' terms and conditions.
+          </label>
+        </div>
+        <div class="form-actions">
+          <button class="btn-prev" onclick="prevStep(5)">← Back</button>
+          <button class="btn-submit" id="submitBtn" onclick="submitBooking()">✅ Confirm Booking</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="form-step" id="stepSuccess" style="text-align:center;padding:40px 20px">
+        <div style="font-size:4rem;margin-bottom:20px">🎉</div>
+        <h3 style="font-family:var(--ff-display);font-size:2rem;color:var(--gold);margin-bottom:12px">Booking Confirmed!</h3>
+        <p style="color:rgba(255,255,255,0.7);max-width:440px;margin:0 auto 8px;line-height:1.7">Thank you! Your booking has been received. Confirmation emails have been sent to you and our team.</p>
+        <p id="bookingIdMsg" style="color:var(--gold);font-weight:700;margin-bottom:28px"></p>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.82rem;margin-bottom:28px">Our team will contact you within 24 hours to confirm and discuss further details. A 20% advance is required to hold your date.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="{{ url_for('home') }}" class="btn-primary">🏠 Back to Home</a>
+          <a href="{{ url_for('portfolio') }}" class="btn-outline" style="color:var(--gold);border-color:var(--gold)">🖼 View Portfolio</a>
+        </div>
+      </div>
+
+    </div><!-- /form-container -->
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentStep = 1;
+let selectedPkg = 'classic';
+
+// Pre-select classic by default
+document.addEventListener('DOMContentLoaded', () => {
+  selectPackage('classic');
+  // Pre-select package from URL param
+  const params = new URLSearchParams(location.search);
+  const pkg = params.get('pkg');
+  if(pkg) selectPackage(pkg);
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('eventDate').min = today;
+});
+
+function selectPackage(pkg) {
+  selectedPkg = pkg;
+  ['pkgStandard','pkgClassic','pkgElite'].forEach(id => {
+    document.getElementById(id).classList.remove('selected');
+  });
+  const map = {standard:'pkgStandard', classic:'pkgClassic', elite:'pkgElite'};
+  if(map[pkg]) document.getElementById(map[pkg]).classList.add('selected');
+}
+
+function nextStep(from) {
+  if(!validateStep(from)) return;
+  if(from === 4) buildSummary();
+  document.getElementById('step'+from).classList.remove('active');
+  document.getElementById('step'+(from+1)).classList.add('active');
+  updateDots(from+1);
+  currentStep = from+1;
+  window.scrollTo({top: document.querySelector('.form-container').offsetTop - 100, behavior:'smooth'});
+}
+
+function prevStep(from) {
+  document.getElementById('step'+from).classList.remove('active');
+  document.getElementById('step'+(from-1)).classList.add('active');
+  updateDots(from-1);
+  currentStep = from-1;
+}
+
+function updateDots(active) {
+  for(let i=1;i<=5;i++){
+    const dot = document.getElementById('dot'+i);
+    dot.classList.remove('active','done');
+    if(i<active) dot.classList.add('done');
+    else if(i===active) dot.classList.add('active');
+    if(i<5){
+      const line = document.getElementById('line'+i);
+      if(line) { line.classList.remove('done'); if(i<active) line.classList.add('done'); }
+    }
+  }
+}
+
+function validateStep(step) {
+  const fields = {
+    1: [{id:'fullName',label:'Full Name'},{id:'mobile',label:'Mobile Number'},{id:'email',label:'Email Address'}],
+    2: [{id:'eventType',label:'Event Type'}],
+    3: [{id:'eventDate',label:'Event Date'},{id:'startTime',label:'Start Time'},{id:'endTime',label:'End Time'},{id:'venueName',label:'Venue Name'},{id:'city',label:'City'},{id:'fullAddress',label:'Full Address'}],
+    4: [],
+    5: []
+  };
+  for(const f of (fields[step]||[])){
+    const el = document.getElementById(f.id);
+    if(!el||!el.value.trim()){showToast(`Please fill in ${f.label}`,'error');el&&el.focus();return false;}
+  }
+  if(step===1){
+    const email = document.getElementById('email').value;
+    if(!email.includes('@')){showToast('Please enter a valid email','error');return false;}
+    const mob = document.getElementById('mobile').value.replace(/\D/g,'');
+    if(mob.length<10){showToast('Please enter a valid mobile number','error');return false;}
+  }
+  if(step===4 && !selectedPkg){showToast('Please select a package','error');return false;}
+  return true;
+}
+
+function buildSummary(){
+  const pkgNames = {standard:'Standard — ₹40,000',classic:'Classic — ₹55,000',elite:'Elite — ₹75,000'};
+  const box = document.getElementById('summaryBox');
+  box.innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 20px">
+      <b style="color:var(--gold)">Name</b><span>${g('fullName')}</span>
+      <b style="color:var(--gold)">Mobile</b><span>${g('mobile')}</span>
+      <b style="color:var(--gold)">Email</b><span>${g('email')}</span>
+      <b style="color:var(--gold)">Event</b><span>${g('eventType')}</span>
+      <b style="color:var(--gold)">Date</b><span>${g('eventDate')}</span>
+      <b style="color:var(--gold)">Time</b><span>${g('startTime')} – ${g('endTime')}</span>
+      <b style="color:var(--gold)">Venue</b><span>${g('venueName')}, ${g('city')}</span>
+      <b style="color:var(--gold)">Address</b><span>${g('fullAddress')}</span>
+      <b style="color:var(--gold)">Package</b><span style="color:var(--gold);font-weight:700">${pkgNames[selectedPkg]||selectedPkg}</span>
+      ${g('specialRequests') ? `<b style="color:var(--gold)">Notes</b><span>${g('specialRequests')}</span>` : ''}
+    </div>`;
+}
+
+function g(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+
+async function submitBooking(){
+  if(!document.getElementById('agreeTerms').checked){showToast('Please agree to the terms to proceed','error');return;}
+  const btn = document.getElementById('submitBtn');
+  btn.textContent='Submitting...'; btn.disabled=true;
+  try {
+    const res = await fetch('/booknow',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        full_name: g('fullName'), mobile: g('mobile'), email: g('email'),
+        event_type: g('eventType'), event_date: g('eventDate'),
+        start_time: g('startTime'), end_time: g('endTime'),
+        venue_name: g('venueName'), city: g('city'),
+        full_address: g('fullAddress'), package: selectedPkg,
+        special_requests: g('specialRequests')
+      })
+    });
+    const data = await res.json();
+    if(data.success){
+      document.getElementById('step5').classList.remove('active');
+      document.getElementById('stepSuccess').classList.add('active');
+      document.getElementById('bookingIdMsg').textContent = `Booking ID: #${data.booking_id}`;
+      updateDots(6);
+    } else { showToast('Something went wrong. Please try again.','error'); }
+  } catch(e){ showToast('Network error. Please check your connection.','error'); }
+  btn.textContent='✅ Confirm Booking'; btn.disabled=false;
+}
+</script>
+{% endblock %}

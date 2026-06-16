@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Contact — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Get in Touch</span>
+    <h1 class="section-title light">Contact <em>Us</em></h1>
+    <div class="breadcrumb">
+      <a href="/">Home</a><span>/</span>
+      <span style="color:var(--gold)">Contact</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<section style="padding:80px 40px;background:var(--warm)">
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;max-width:1100px;margin:0 auto;align-items:start">
+
+    <!-- INFO -->
+    <div>
+      <span class="section-label">Reach Out</span>
+      <h2 class="section-title">Let's Start a <em>Conversation</em></h2>
+
+      {% set contact_info = [
+        ("📍","Address","Tamil Nadu, India"),
+        ("📞","Phone","+91 XXXXX XXXXX"),
+        ("✉️","Email","hello@thathvamasi.com"),
+        ("🌐","Website","www.thathvamasi.com"),
+        ("🕐","Working Hours","Mon – Sun: 9:00 AM – 8:00 PM")
+      ] %}
+
+      {% for icon,label,val in contact_info %}
+      <div style="display:flex;gap:16px;margin-bottom:18px">
+        <div style="width:44px;height:44px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center">
+          {{ icon }}
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--gold);text-transform:uppercase">{{ label }}</div>
+          <div style="color:var(--text)">{{ val }}</div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <!-- FORM -->
+    <div style="background:white;padding:40px;border-radius:10px">
+
+      <h3>Send Message</h3>
+
+      <div class="form-group">
+        <input id="cName" placeholder="Full Name *" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <input id="cEmail" placeholder="Email *" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <input id="cMobile" placeholder="Mobile" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <input id="cSubject" placeholder="Subject" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <textarea id="cMessage" placeholder="Message *" class="form-control"></textarea>
+      </div>
+
+      <button onclick="sendContact()" class="btn-primary" style="width:100%">
+        Send Message
+      </button>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding:80px 40px;background:var(--warm)">
+  <h2 style="text-align:center">FAQ</h2>
+
+  {% set faqs = [
+    ("How far in advance should I book?","We recommend booking at least 4–6 weeks in advance for regular events and 3–6 months for weddings."),
+    ("Do you travel outside Tamil Nadu?","Yes, we travel across Tamil Nadu and other states with travel charges."),
+    ("How long for delivery?","Edited photos delivered in 15–21 working days."),
+    ("Do you provide raw photos?","No, only professionally edited photos are delivered."),
+    ("Can I customize package?","Yes, we offer fully customized packages."),
+    ("What if it rains on our shoot day?","We will reschedule at no extra charge or creatively use rain for dramatic shots.")
+  ] %}
+
+  <div style="max-width:800px;margin:auto">
+
+    {% for q,a in faqs %}
+    <div style="border-bottom:1px solid #ddd;padding:15px 0">
+      <button onclick="toggleFaq(this)" style="width:100%;text-align:left;background:none;border:none;font-weight:bold">
+        {{ q }}
+      </button>
+      <div style="display:none;padding-top:10px;color:gray">
+        {{ a }}
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+async function sendContact() {
+  const name = document.getElementById('cName').value;
+  const email = document.getElementById('cEmail').value;
+  const mobile = document.getElementById('cMobile').value;
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value;
+
+  const res = await fetch('/contact', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({name,email,mobile,subject,message})
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    alert("Message sent successfully!");
+  } else {
+    alert("Failed. Try again.");
+  }
+}
+
+function toggleFaq(btn){
+  const ans = btn.nextElementSibling;
+  ans.style.display = (ans.style.display === "block") ? "none" : "block";
+}
+</script>
+
+{% endblock %}

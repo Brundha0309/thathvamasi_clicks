@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Pricing — Thathvamasi Clicks{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-content">
+    <span class="section-label">Investment</span>
+    <h1 class="section-title light">Our <em>Packages</em></h1>
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><span style="color:var(--gold)">Pricing</span></div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section class="pricing-section" style="padding:100px 40px">
+  <div class="text-center reveal" style="margin-bottom:50px">
+    <span class="section-label">Transparent Pricing</span>
+    <h2 class="section-title light">Choose Your <em>Perfect Package</em></h2>
+    <div class="section-divider center"></div>
+    <p style="color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto;font-size:0.88rem;line-height:1.7">All packages include professional editing, online gallery delivery, and our signature Thathvamasi touch. Custom packages available on request.</p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <!-- STANDARD -->
+    <div class="pricing-card reveal">
+      <div class="pkg-name">Standard</div>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:10px">Perfect for smaller celebrations</p>
+      <div class="pkg-price"><sup>₹</sup>40,000</div>
+      <ul class="pkg-features">
+        <li>1 Traditional Photographer</li>
+        <li>1 Traditional Videographer</li>
+        <li>220 Images Premium Album</li>
+        <li>All Image Soft Copies (Pendrive)</li>
+        <li>Professional Video Editing Output</li>
+        <li>Video Output with Pendrive</li>
+        <li>Outdoor Shoot — Free</li>
+        <li>2 Photo Frames (included)</li>
+      </ul>
+      <a href="{{ url_for('booknow') }}?pkg=standard" class="btn-outline" style="width:100%;justify-content:center;margin-top:10px;color:var(--gold);border-color:var(--gold)">Book Standard →</a>
+    </div>
+
+    <!-- CLASSIC (FEATURED) -->
+    <div class="pricing-card featured reveal">
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-name" style="color:var(--gold)">Classic</div>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:10px">Ideal for weddings & grand events</p>
+      <div class="pkg-price"><sup>₹</sup>55,000</div>
+      <ul class="pkg-features">
+        <li>1 Traditional Photographer</li>
+        <li>1 Candid Photographer</li>
+        <li>1 Traditional Videographer</li>
+        <li>250 Images Premium Album</li>
+        <li>All Image Soft Copies (Pendrive)</li>
+        <li>Professional Video Editing Output</li>
+        <li>Video Output with Pendrive</li>
+        <li>Outdoor Shoot — Free</li>
+        <li>2 Photo Frames (included)</li>
+      </ul>
+      <a href="{{ url_for('booknow') }}?pkg=classic" class="btn-primary" style="width:100%;justify-content:center;margin-top:10px">Book Classic →</a>
+    </div>
+
+    <!-- ELITE -->
+    <div class="pricing-card reveal">
+      <div class="pkg-name">Elite</div>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:10px">The ultimate luxury experience</p>
+      <div class="pkg-price"><sup>₹</sup>75,000</div>
+      <ul class="pkg-features">
+        <li>1 Traditional Photographer</li>
+        <li>1 Candid Photographer</li>
+        <li>1 Traditional Videographer</li>
+        <li>1 Candid Videographer</li>
+        <li>250 Images Premium Album <strong style="color:var(--gold)">(2 copies)</strong></li>
+        <li>All Image Soft Copies (Pendrive)</li>
+        <li>Cinematic Video Editing Output</li>
+        <li>Video Output with Pendrive</li>
+        <li>Outdoor Shoot — Free</li>
+        <li>Priority Delivery</li>
+      </ul>
+      <a href="{{ url_for('booknow') }}?pkg=elite" class="btn-outline" style="width:100%;justify-content:center;margin-top:10px;color:var(--gold);border-color:var(--gold)">Book Elite →</a>
+    </div>
+
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div style="max-width:900px;margin:70px auto 0" class="reveal">
+    <h3 style="font-family:var(--ff-display);font-size:1.8rem;color:var(--white);text-align:center;margin-bottom:30px">Package <em style="color:var(--gold)">Comparison</em></h3>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:0.82rem">
+        <thead>
+          <tr>
+            <th style="padding:14px 16px;text-align:left;color:rgba(255,255,255,0.5);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(212,175,55,0.2)">Feature</th>
+            <th style="padding:14px 16px;text-align:center;color:var(--gold);font-weight:700;border-bottom:1px solid rgba(212,175,55,0.2)">Standard<br><span style="font-size:0.75rem">₹40,000</span></th>
+            <th style="padding:14px 16px;text-align:center;color:var(--gold);font-weight:700;border-bottom:1px solid rgba(212,175,55,0.2);background:rgba(212,175,55,0.05)">Classic<br><span style="font-size:0.75rem">₹55,000</span></th>
+            <th style="padding:14px 16px;text-align:center;color:var(--gold);font-weight:700;border-bottom:1px solid rgba(212,175,55,0.2)">Elite<br><span style="font-size:0.75rem">₹75,000</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set features = [
+            ('Traditional Photography','✔','✔','✔'),
+            ('Candid Photography','✘','✔','✔'),
+            ('Traditional Videography','✔','✔','✔'),
+            ('Candid Videography','✘','✘','✔'),
+            ('Photo Album','220 images','250 images','250×2 copies'),
+            ('Image Soft Copies','✔','✔','✔'),
+            ('Video Editing + Pendrive','✔','✔','✔ Cinematic'),
+            ('Outdoor Shoot','Free','Free','Free'),
+            ('Photo Frames','2 nos','2 nos','Luxury 2 nos'),
+            ('Priority Delivery','✘','✘','✔'),
+          ] %}
+          {% for feat,s,c,e in features %}
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.05)">
+            <td style="padding:13px 16px;color:rgba(255,255,255,0.7)">{{ feat }}</td>
+            <td style="padding:13px 16px;text-align:center;color:{% if s=='✔' %}#4caf50{% elif s=='✘' %}rgba(255,255,255,0.2){% else %}var(--gold){% endif %}">{{ s }}</td>
+            <td style="padding:13px 16px;text-align:center;background:rgba(212,175,55,0.04);color:{% if c=='✔' %}#4caf50{% elif c=='✘' %}rgba(255,255,255,0.2){% else %}var(--gold){% endif %}">{{ c }}</td>
+            <td style="padding:13px 16px;text-align:center;color:{% if e=='✔' or '✔' in e %}#4caf50{% elif e=='✘' %}rgba(255,255,255,0.2){% else %}var(--gold){% endif %}">{{ e }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM / ADD-ONS -->
+<section style="padding:80px 40px;background:var(--warm)">
+  <div class="text-center reveal">
+    <span class="section-label">Extras</span>
+    <h2 class="section-title">Add-On <em>Services</em></h2>
+    <div class="section-divider center"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:900px;margin:40px auto 0">
+    {% set addons = [('🚁','Drone Coverage','₹5,000 – ₹10,000'),('📷','Extra Photographer','₹3,000 / day'),('🎬','Highlight Reel','₹4,000'),('🖼️','Extra Photo Frame','₹800 / frame'),('💿','Extra Pendrive Copy','₹500'),('📘','Extra Album','₹3,500')] %}
+    {% for icon,name,price in addons %}
+    <div class="testimonial-card reveal" style="text-align:center;border-left:none;border-top:2px solid var(--gold);padding:24px 18px">
+      <div style="font-size:2rem;margin-bottom:10px">{{ icon }}</div>
+      <div style="font-weight:700;font-size:0.88rem;color:var(--navy);margin-bottom:4px">{{ name }}</div>
+      <div style="color:var(--gold);font-weight:700;font-size:1rem">{{ price }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:0.82rem;margin-top:24px">* Custom packages available. Contact us to discuss your specific requirements.</p>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--navy);padding:80px 40px;text-align:center">
+  <h2 class="section-title light" style="margin-bottom:16px">Ready to <em>Book?</em></h2>
+  <p style="color:rgba(255,255,255,0.5);margin-bottom:32px">Select your package and fill in your details — we'll confirm within 24 hours.</p>
+  <a href="{{ url_for('booknow') }}" class="btn-primary" style="font-size:0.85rem;padding:16px 40px">📅 Book Now</a>
+</section>
+{% endblock %}
