@@ -17,102 +17,197 @@
     <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="wedding">Wedding</button>
     <button class="filter-btn" data-filter="prewedding">Pre-Wedding</button>
-    <button class="filter-btn" data-filter="birthday">Birthday</button>
+    <button class="filter-btn" data-filter="babyshoot">Babyshoot</button>
+    <button class="filter-btn" data-filter="babyshower">Babyshower</button>
+    <button class="filter-btn" data-filter="maternity">Maternity</button>
+    <button class="filter-btn" data-filter="modelshoot">Model Shoot</button>
+    
   </div>
 
   <div class="portfolio-masonry">
 
-    {# ================= WEDDING (20) ================= #}
-    {% set wedding = [
-      ('https://images.unsplash.com/photo-1519741497674-611481863552?w=600','Wedding 1'),
-      ('https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600','Wedding 2'),
-      ('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600','Wedding 3'),
-      ('https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600','Wedding 4'),
-      ('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600','Wedding 5'),
-      ('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600','Wedding 6'),
-      ('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600','Wedding 7'),
-      ('https://images.unsplash.com/photo-1470019693664-1d202d2c0401?w=600','Wedding 8'),
-      ('https://images.unsplash.com/photo-1550005809-91ad75fb315f?w=600','Wedding 9'),
-      ('https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600','Wedding 10'),
-      ('https://images.unsplash.com/photo-1594897030264-ab7d87efc473?w=600','Wedding 11'),
-      ('https://images.unsplash.com/photo-1623339080098-64bc2e04e4d7?w=600','Wedding 12'),
-      ('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600','Wedding 13'),
-      ('https://images.unsplash.com/photo-1513278974582-3e1b4a4fa21e?w=600','Wedding 14'),
-      ('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600','Wedding 15'),
-      ('https://images.unsplash.com/photo-1444254290-64cf33acbc43?w=600','Wedding 16'),
-      ('https://images.unsplash.com/photo-1487528278747-ba99ed528ebc?w=600','Wedding 17'),
-      ('https://images.unsplash.com/photo-1509927083803-4bd519298ac4?w=600','Wedding 18'),
-      ('https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600','Wedding 19'),
-      ('https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600','Wedding 20')
-    ] %}
+{% set wedding = [
+('wedding','/static/images/portfolio/wedding/wedding1.jpg','Wedding Ceremony'),
+('wedding','/static/images/portfolio/wedding/wedding2.jpg','Bridal Portrait'),
+('wedding','/static/images/portfolio/wedding/wedding3.jpg','Wedding Vows'),
+('wedding','/static/images/portfolio/wedding/wedding4.jpg','Couple Shot'),
+('wedding','/static/images/portfolio/wedding/wedding5.jpg','Reception'),
+('wedding','/static/images/portfolio/wedding/wedding6.jpg','Bridal Jewelry'),
+('wedding','/static/images/portfolio/wedding/wedding7.jpg','First Dance'),
+('wedding','/static/images/portfolio/wedding/wedding8.jpg','Wedding Walk'),
+('wedding','/static/images/portfolio/wedding/wedding9.jpg','Ceremony Details'),
+('wedding','/static/images/portfolio/wedding/wedding10.jpg','Groom Portrait'),
+('wedding','/static/images/portfolio/wedding/wedding11.jpg','Wedding Rings'),
+('wedding','/static/images/portfolio/wedding/wedding12.jpg','Candid Laugh'),
+('wedding','/static/images/portfolio/wedding/wedding13.jpg','Mehndi Hands'),
+('wedding','/static/images/portfolio/wedding/wedding14.jpg','Bouquet'),
+('wedding','/static/images/portfolio/wedding/wedding15.jpg','Bride Getting Ready'),
+('wedding','/static/images/portfolio/wedding/wedding16.jpg','Evening Lights'),
+('wedding','/static/images/portfolio/wedding/wedding17.jpg','Family Group'),
+('wedding','/static/images/portfolio/wedding/wedding18.jpg','Outdoor Ceremony'),
+('wedding','/static/images/portfolio/wedding/wedding19.jpg','Traditional Ritual'),
+('wedding','/static/images/portfolio/wedding/wedding20.jpg','Sparkler Exit'),
+('wedding','/static/images/portfolio/wedding/wedding21.jpg','Outdoor Ceremony'),
+('wedding','/static/images/portfolio/wedding/wedding22.jpg','Outdoor Ceremony'),
 
-    {% for img,caption in wedding %}
-    <div class="portfolio-item" data-category="wedding">
-      <img src="{{ img }}" alt="{{ caption }}">
-    </div>
-    {% endfor %}
-
-
-    {# ================= PREWEDDING (20) ================= #}
-    {% set prewedding = [
-      ('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600','Pre 1'),
-      ('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600','Pre 2'),
-      ('https://images.unsplash.com/photo-1586104237026-87fcdc3cd72e?w=600','Pre 3'),
-      ('https://images.unsplash.com/photo-1543854589-fcc0e08e4ff4?w=600','Pre 4'),
-      ('https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=600','Pre 5'),
-      ('https://images.unsplash.com/photo-1533709752211-118fcaf03312?w=600','Pre 6'),
-      ('https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=600','Pre 7'),
-      ('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600','Pre 8'),
-      ('https://images.unsplash.com/photo-1549416878-b2f1f7b74f15?w=600','Pre 9'),
-      ('https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=600','Pre 10'),
-      ('https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=600','Pre 11'),
-      ('https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=600','Pre 12'),
-      ('https://images.unsplash.com/photo-1484894096960-d18c8567d174?w=600','Pre 13'),
-      ('https://images.unsplash.com/photo-1458442310124-dde6edb43d10?w=600','Pre 14'),
-      ('https://images.unsplash.com/photo-1453301109223-4f60de7af3eb?w=600','Pre 15'),
-      ('https://images.unsplash.com/photo-1440778303588-435521a205bc?w=600','Pre 16'),
-      ('https://images.unsplash.com/photo-1430990480609-2bf7c02a6b1a?w=600','Pre 17'),
-      ('https://images.unsplash.com/photo-1428342319940-7ba09dddb0f3?w=600','Pre 18'),
-      ('https://images.unsplash.com/photo-1424324895045-4a22a52ba5b9?w=600','Pre 19'),
-      ('https://images.unsplash.com/photo-1415260024741-a4b6ef60d5e4?w=600','Pre 20')
-    ] %}
-
-    {% for img,caption in prewedding %}
-    <div class="portfolio-item" data-category="prewedding">
-      <img src="{{ img }}" alt="{{ caption }}">
-    </div>
-    {% endfor %}
+('wedding','/static/images/portfolio/wedding/wedding24.jpg','Outdoor Ceremony'),
+('wedding','/static/images/portfolio/wedding/wedding25.jpg','Traditional Ritual'),
+('wedding','/static/images/portfolio/wedding/wedding26.jpg','Sparkler Exit'),
+('wedding','/static/images/portfolio/wedding/wedding27.jpg','Sparkler Exit'),
+('wedding','/static/images/portfolio/wedding/wedding28.jpg','Sparkler Exit')
 
 
-    {# ================= BIRTHDAY (20) ================= #}
-    {% set birthday = [
-      ('https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=600','Birthday 1'),
-      ('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600','Birthday 2'),
-      ('https://images.unsplash.com/photo-1558636508-e0969431e23a?w=600','Birthday 3'),
-      ('https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600','Birthday 4'),
-      ('https://images.unsplash.com/photo-1602631985686-1bb0e6a8696e?w=600','Birthday 5'),
-      ('https://images.unsplash.com/photo-1595187138859-7fa28a5ec9c0?w=600','Birthday 6'),
-      ('https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600','Birthday 7'),
-      ('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600','Birthday 8'),
-      ('https://images.unsplash.com/photo-1515169067868-5387ec356754?w=600','Birthday 9'),
-      ('https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600','Birthday 10'),
-      ('https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=600','Birthday 11'),
-      ('https://images.unsplash.com/photo-1471967183320-ee018f6e114a?w=600','Birthday 12'),
-      ('https://images.unsplash.com/photo-1461595993689-1bcb9b0c64a7?w=600','Birthday 13'),
-      ('https://images.unsplash.com/photo-1454328930778-0e51b18f8f53?w=600','Birthday 14'),
-      ('https://images.unsplash.com/photo-1453791052107-5c843da62d97?w=600','Birthday 15'),
-      ('https://images.unsplash.com/photo-1448375240586-882707db888b?w=600','Birthday 16'),
-      ('https://images.unsplash.com/photo-1433878455169-4698e60005b1?w=600','Birthday 17'),
-      ('https://images.unsplash.com/photo-1429198739803-7db875882052?w=600','Birthday 18'),
-      ('https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?w=600','Birthday 19'),
-      ('https://images.unsplash.com/photo-1405827064693-a7ef9e9f0f3b?w=600','Birthday 20')
-    ] %}
+] %}
 
-    {% for img,caption in birthday %}
-    <div class="portfolio-item" data-category="birthday">
-      <img src="{{ img }}" alt="{{ caption }}">
-    </div>
-    {% endfor %}
+{% for category, img, caption in wedding %}
+<div class="portfolio-item" data-category="{{ category }}">
+  <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
+
+  
+
+    {# ================= PREWEDDING ================= #}
+{% set prewedding = [
+('prewedding','/static/images/portfolio/prewedding/prewedding1.jpg','Pre-Wedding Walk'),
+('prewedding','/static/images/portfolio/prewedding/prewedding2.jpg','Pre-Wedding Photoshoot'),
+('prewedding','/static/images/portfolio/prewedding/prewedding3.jpg','Engagement Session'),
+('prewedding','/static/images/portfolio/prewedding/prewedding4.jpg','Couple Portrait'),
+('prewedding','/static/images/portfolio/prewedding/prewedding5.jpg','Bridal Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding6.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding7.jpg','Pre-Wedding Dinner'),
+('prewedding','/static/images/portfolio/prewedding/prewedding8.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding9.jpg','Pre-Wedding Dinner'),
+('prewedding','/static/images/portfolio/prewedding/prewedding10.jpg','Pre-Wedding Walk'),
+('prewedding','/static/images/portfolio/prewedding/prewedding11.jpg','Pre-Wedding Photoshoot'),
+('prewedding','/static/images/portfolio/prewedding/prewedding12.jpg','Engagement Session'),
+('prewedding','/static/images/portfolio/prewedding/prewedding13.jpg','Couple Portrait'),
+('prewedding','/static/images/portfolio/prewedding/prewedding14.jpg','Bridal Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding15.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding16.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding17.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding18.jpg','Groom Preparation'),
+('prewedding','/static/images/portfolio/prewedding/prewedding19.jpg','Pre-Wedding Dinner'),
+('prewedding','/static/images/portfolio/prewedding/prewedding20.jpg','Pre-Wedding Dinner')
+
+
+] %}
+
+{% for category, img, caption in prewedding %}
+<div class="portfolio-item" data-category="{{ category }}">
+  <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
+
+
+{% set babyshower = [
+('babyshower','/static/images/portfolio/babyshower/babysh1.jpg','Baby Shower Celebration'),
+('babyshower','/static/images/portfolio/babyshower/babysh2.jpg','Mom-to-Be Portrait'),
+('babyshower','/static/images/portfolio/babyshower/babysh3.jpg','Family Moments'),
+('babyshower','/static/images/portfolio/babyshower/babysh4.jpg','Baby Shower Decor'),
+('babyshower','/static/images/portfolio/babyshower/babysh5.jpg','Happy Parents'),
+('babyshower','/static/images/portfolio/babyshower/babysh6.jpg','Baby Shower Cake')
+
+] %}
+
+{% for category, img, caption in babyshower %}
+<div class="portfolio-item" data-category="{{ category }}">
+  <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
+
+
+{% set modelshoot = [
+('modelshoot','/static/images/portfolio/modelshoot/model1.jpg','Model Shoot 1'),
+('modelshoot','/static/images/portfolio/modelshoot/model2.jpg','Fashion Portrait'),
+('modelshoot','/static/images/portfolio/modelshoot/model3.jpg','Outdoor Shoot'),
+('modelshoot','/static/images/portfolio/modelshoot/model4.jpg','Creative Pose'),
+('modelshoot','/static/images/portfolio/modelshoot/model5.jpg','Studio Portrait'),
+('modelshoot','/static/images/portfolio/modelshoot/model6.jpg','Classic Style'),
+('modelshoot','/static/images/portfolio/modelshoot/model7.jpg','Elegant Look'),
+('modelshoot','/static/images/portfolio/modelshoot/model8.jpg','Modern Fashion'),
+('modelshoot','/static/images/portfolio/modelshoot/model9.jpg','Casual Portrait'),
+('modelshoot','/static/images/portfolio/modelshoot/model10.jpg','Evening Shoot'),
+('modelshoot','/static/images/portfolio/modelshoot/model11.jpg','Cinematic Style'),
+('modelshoot','/static/images/portfolio/modelshoot/model12.jpg','Traditional Look'),
+('modelshoot','/static/images/portfolio/modelshoot/model13.jpg','Lifestyle Portrait'),
+('modelshoot','/static/images/portfolio/modelshoot/model14.jpg','Professional Model Shoot')
+] %}
+
+{% for category, img, caption in modelshoot %}
+<div class="portfolio-item" data-category="{{ category }}">
+    <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
+
+
+
+{% set babyshoot = [
+('babyshoot','/static/images/portfolio/babyshoot/baby1.jpg','Baby Smile'),
+('babyshoot','/static/images/portfolio/babyshoot/baby2.jpg','Cute Baby'),
+('babyshoot','/static/images/portfolio/babyshoot/baby3.jpg','Baby Portrait'),
+('babyshoot','/static/images/portfolio/babyshoot/baby4.jpg','Little Angel'),
+('babyshoot','/static/images/portfolio/babyshoot/baby5.jpg','Baby Laugh'),
+('babyshoot','/static/images/portfolio/babyshoot/baby6.jpg','Tiny Hands'),
+('babyshoot','/static/images/portfolio/babyshoot/baby7.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby8.jpg','Happy Moments'),
+('babyshoot','/static/images/portfolio/babyshoot/baby9.jpg','Baby Eyes'),
+('babyshoot','/static/images/portfolio/babyshoot/baby10.jpg','Playful Baby'),
+('babyshoot','/static/images/portfolio/babyshoot/baby11.jpg','Sweet Smile'),
+('babyshoot','/static/images/portfolio/babyshoot/baby12.jpg','Adorable Baby'),
+('babyshoot','/static/images/portfolio/babyshoot/baby13.jpg','Baby in Nature'),
+('babyshoot','/static/images/portfolio/babyshoot/baby14.jpg','Baby with Toys'),
+('babyshoot','/static/images/portfolio/babyshoot/baby15.jpg','Baby Portrait'),
+
+('babyshoot','/static/images/portfolio/babyshoot/baby17.jpg','Baby Laughing'),
+('babyshoot','/static/images/portfolio/babyshoot/baby18.jpg','Tiny Feet'),
+('babyshoot','/static/images/portfolio/babyshoot/baby19.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby20.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby21.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby22.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby23.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby24.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby25.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby26.jpg','Baby Candid'),
+('babyshoot','/static/images/portfolio/babyshoot/baby27.jpg','Baby Candid')
+
+
+
+
+
+] %}
+
+{% for category, img, caption in babyshoot %}
+<div class="portfolio-item" data-category="{{ category }}">
+  <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
+
+
+{% set maternity = [
+('maternity','/static/images/portfolio/maternity/maternity1.jpg','Maternity Portrait'),
+('maternity','/static/images/portfolio/maternity/maternity2.jpg','Mom-to-Be'),
+('maternity','/static/images/portfolio/maternity/maternity3.jpg','Beautiful Journey'),
+('maternity','/static/images/portfolio/maternity/maternity4.jpg','Baby Bump Love'),
+('maternity','/static/images/portfolio/maternity/maternity5.jpg','Motherhood Glow'),
+('maternity','/static/images/portfolio/maternity/maternity6.jpg','Elegant Pose'),
+('maternity','/static/images/portfolio/maternity/maternity7.jpg','Family Bond'),
+('maternity','/static/images/portfolio/maternity/maternity8.jpg','Waiting for You'),
+('maternity','/static/images/portfolio/maternity/maternity9.jpg','Sweet Anticipation'),
+('maternity','/static/images/portfolio/maternity/maternity10.jpg','Cherished Moments'),
+('maternity','/static/images/portfolio/maternity/maternity11.jpg','Mommy Love'),
+('maternity','/static/images/portfolio/maternity/maternity12.jpg','Maternity Glow'),
+('maternity','/static/images/portfolio/maternity/maternity13.jpg','Maternity Portrait')
+
+
+
+] %}
+
+{% for category, img, caption in maternity %}
+<div class="portfolio-item" data-category="{{ category }}">
+  <img src="{{ img }}" alt="{{ caption }}">
+</div>
+{% endfor %}
 
   </div>
 </section>

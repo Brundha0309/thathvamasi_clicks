@@ -14,11 +14,15 @@
 
 <!-- ── NAVBAR ── -->
 <nav class="navbar" id="navbar">
-  <a href="{{ url_for('home') }}" class="nav-brand">
-    <span class="brand-icon">📷</span>
-    <div>
-      <span class="brand-text">Thathvamasi Clicks</span>
-      <span class="brand-sub">Photography Studio</span>
+  <a href="{{ url_for('home') }}" class="nav-brand" style="gap:8px;text-decoration:none;">
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Logo"
+         style="height:46px;width:auto;
+                filter:brightness(0) invert(1);
+                background:transparent;display:block;"/>
+    <div style="line-height:1.2">
+      <span class="brand-text" style="color:#ffffff;font-size:1.3rem;">Thathvamasi Clicks</span>
+      <span class="brand-sub" style="color:rgba(255,255,255,0.6);display:block;">Photography Studio</span>
     </div>
   </a>
   <ul class="nav-links" id="navLinks">
@@ -26,7 +30,7 @@
     <li><a href="{{ url_for('about') }}"        class="{% if request.endpoint=='about' %}active{% endif %}">About</a></li>
     <li><a href="{{ url_for('services') }}"     class="{% if request.endpoint=='services' %}active{% endif %}">Services</a></li>
     <li><a href="{{ url_for('portfolio') }}"    class="{% if request.endpoint=='portfolio' %}active{% endif %}">Portfolio</a></li>
-    <li><a href="{{ url_for('pricing') }}"      class="{% if request.endpoint=='pricing' %}active{% endif %}">Pricing</a></li>
+    <li><a href="{{ url_for('pricing') }}"    class="{% if request.endpoint=='pricing' %}active{% endif %}">Packages</a></li>
     <li><a href="{{ url_for('testimonials') }}" class="{% if request.endpoint=='testimonials' %}active{% endif %}">Testimonials</a></li>
     <li><a href="{{ url_for('contact') }}"      class="{% if request.endpoint=='contact' %}active{% endif %}">Contact</a></li>
     <li><a href="{{ url_for('booknow') }}"      class="nav-book {% if request.endpoint=='booknow' %}active{% endif %}">Book Now</a></li>
@@ -41,19 +45,48 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-grid">
+
+    <!-- Footer Brand -->
     <div>
-      <div class="nav-brand footer-brand" style="margin-bottom:12px">
-        <span class="brand-icon">📷</span>
-        <span class="brand-text">Thathvamasi Clicks</span>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             alt="Thathvamasi Clicks Logo"
+             style="height:50px;
+                    width:auto;
+                    filter:brightness(0) invert(1);
+                    display:block;">
+
+        <div>
+          <h3 class="brand-text" style="margin:0;color:#d4af37;font-size:28px;">
+            Thathvamasi Clicks
+          </h3>
+          <p style="margin:3px 0 0;color:#bdbdbd;font-size:14px;letter-spacing:2px;">
+            PHOTOGRAPHY STUDIO
+          </p>
+        </div>
+
       </div>
-      <p class="footer-tagline">We capture real emotions and beautiful moments that last a lifetime. Every frame tells your story.</p>
+
+      <p class="footer-tagline">
+        We capture real emotions and beautiful moments that last a lifetime.
+        Every frame tells your story.
+      </p>
+
       <div class="footer-social">
-        <a href="#" class="social-link" title="Instagram">📸</a>
-        <a href="#" class="social-link" title="Facebook">👍</a>
-        <a href="#" class="social-link" title="WhatsApp">💬</a>
-        <a href="#" class="social-link" title="YouTube">▶️</a>
+        <a href="https://www.instagram.com/sastha_sri_prasanth?igsh=MWVoamFjaGJrNnN6Zw=="
+           class="social-link"
+           target="_blank"
+           title="Instagram">📸</a>
+
+        <a href="https://wa.me/qr/GDXHO6AXMH5RC1"
+           class="social-link"
+           target="_blank"
+           title="WhatsApp">💬</a>
       </div>
     </div>
+
+    <!-- Quick Links -->
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
@@ -61,11 +94,13 @@
         <li><a href="{{ url_for('about') }}">About Us</a></li>
         <li><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
-        <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+        <li><a href="{{ url_for('pricing') }}">Packages</a></li>
         <li><a href="{{ url_for('testimonials') }}">Testimonials</a></li>
         <li><a href="{{ url_for('contact') }}">Contact</a></li>
       </ul>
     </div>
+
+    <!-- Services -->
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
@@ -78,15 +113,40 @@
         <li><a href="{{ url_for('services') }}">Corporate Events</a></li>
       </ul>
     </div>
+
+    <!-- Contact -->
     <div class="footer-col">
       <h4>Contact Info</h4>
-      <div class="footer-contact-item"><span>📍</span><span>Tamil Nadu, India</span></div>
-      <div class="footer-contact-item"><span>📞</span><span>+91 XXXXX XXXXX</span></div>
-      <div class="footer-contact-item"><span>✉️</span><span>hello@thathvamasi.com</span></div>
-      <div class="footer-contact-item"><span>🕐</span><span>Mon–Sun: 9:00 AM – 8:00 PM</span></div>
-      <a href="{{ url_for('booknow') }}" class="btn-primary" style="margin-top:16px;font-size:0.72rem;padding:11px 22px">📅 Book Now</a>
+
+      <div class="footer-contact-item">
+        <span>📍</span>
+        <span>Pallipalayam, Erode, Tamil Nadu</span>
+      </div>
+
+      <div class="footer-contact-item">
+        <span>📞</span>
+        <span>+91 89391 16189</span>
+      </div>
+
+      <div class="footer-contact-item">
+        <span>✉️</span>
+        <span>thathvamasi.clicks@gmail.com</span>
+      </div>
+
+      <div class="footer-contact-item">
+        <span>🕐</span>
+        <span>Mon–Sun: 9:00 AM – 8:00 PM</span>
+      </div>
+
+      <a href="{{ url_for('booknow') }}"
+         class="btn-primary"
+         style="margin-top:18px;font-size:.8rem;padding:12px 24px;">
+         📅 Book Now
+      </a>
     </div>
+
   </div>
+
   <div class="footer-bottom">
     <p>© 2024 Thathvamasi Clicks. All Rights Reserved. | Crafted with ❤️ for every precious moment.</p>
   </div>

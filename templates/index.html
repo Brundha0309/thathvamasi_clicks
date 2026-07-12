@@ -1,25 +1,57 @@
 {% extends "base.html" %}
-{% block title %}Thathvamasi Clicks — Capturing Moments, Creating Memories{% endblock %}
+{% block title %}Thathvamasi Clicks — Freezing Moments Framing Memories{% endblock %}
 
 {% block content %}
 <!-- ══ HERO ══ -->
-<section class="hero" id="hero">
+<section class="hero" id="hero" style="background-image:url('/static/images/hero-bg.jpg');
+     background-size:cover;
+     background-position:center;
+     background-repeat:no-repeat;">
   <div class="hero-particles" id="particles"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">✦ Professional Photography Studio ✦</p>
-    <h1 class="hero-title">Capturing <em>Moments</em>,<br>Creating Memories</h1>
-    <span class="hero-brand">📷 Thathvamasi Clicks 📷</span>
+  <h1 class="hero-title" style="font-size:clamp(2rem,4.5vw,3.8rem);
+     font-weight:300;letter-spacing:2px;line-height:1.2;">
+      Freezing <em>Moments</em>,<br><em>Framing</em> Memories
+  </h1>  
+
+  <div style="width:60px;height:1px;background:var(--gold);
+            margin:18px auto 20px;opacity:0.7;"></div>  
+   <!-- Logo + Brand — same line, zero gap, two fonts -->
+<div style="display:flex;align-items:center;justify-content:center;
+            gap:4px;margin:16px auto 6px;
+            opacity:0;animation:fadeUp 0.8s 0.7s forwards;">
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       alt="Thathvamasi Clicks Logo"
+       style="height:85px;width:auto;
+              filter:brightness(0) invert(1);
+              background:transparent;flex-shrink:0;
+              margin-right:-20px;"/>
+  <span style="font-family:'Cormorant Garamond',serif;
+               font-size:2.8rem;font-weight:600;
+               font-style:italic;
+               color:#ffffff;
+               letter-spacing:1px;
+               text-shadow:0 2px 10px rgba(0,0,0,0.3);
+               line-height:1;">Thathvamasi&nbsp;</span>
+  <span style="font-family:'Dancing Script',cursive;
+               font-size:2.8rem;font-weight:700;
+               color:#d4af37;
+               letter-spacing:1px;
+               text-shadow:0 2px 10px rgba(0,0,0,0.3);
+               line-height:1;">Clicks</span>
+</div>
+
     <p class="hero-sub">We transform your most cherished celebrations into timeless visual stories — told with artistry, emotion, and love.</p>
     <div class="hero-btns">
       <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book a Session</a>
       <a href="{{ url_for('portfolio') }}" class="btn-outline">🖼 View Portfolio</a>
     </div>
   </div>
+
   <div class="hero-stats">
-    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
-    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Happy Clients</div></div>
-    <div class="stat-item"><div class="stat-num">1000+</div><div class="stat-label">Projects Done</div></div>
-    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+    <div class="stat-item"><div class="stat-num">4+</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat-item"><div class="stat-num">150+</div><div class="stat-label">Happy Clients</div></div>
   </div>
   <div class="scroll-hint"><span></span></div>
 </section>
@@ -30,16 +62,18 @@
     <span class="section-label">What We Do</span>
     <h2 class="section-title">Our <em>Specialties</em></h2>
     <div class="section-divider center"></div>
-    <p style="color:var(--muted);max-width:520px;margin:0 auto;font-size:0.88rem;line-height:1.7">From intimate family portraits to grand wedding celebrations — we cover every milestone with passion and precision.</p>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto;font-size:0.88rem;line-height:1.7">
+      From intimate family portraits to grand wedding celebrations — we cover every milestone with passion and precision.
+    </p>
   </div>
   <div class="services-grid" style="max-width:1200px;margin:50px auto 0">
     {% set svcs = [
-      ('💍','Wedding Photography','Timeless Elegance','https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80'),
-      ('🎂','Birthday Events','Joyful Memories','https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=600&q=80'),
-      ('👶','Baby & Newborn','Precious Beginnings','https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&q=80'),
-      ('🤰','Maternity Shoot','Beautiful Journey','https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=600&q=80'),
-      ('💑','Pre-Wedding','Love Stories','https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80'),
-      ('🚁','Drone Photography','Aerial Perspectives','https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80'),
+      ('💍','Wedding Photography','Timeless Elegance',  '/static/images/services/wedding.jpg'),
+      ('🎂','Birthday Shoot',     'Joyful Memories',    '/static/images/services/birthdayshoot.jpg'),
+      ('👶','Baby Shoot',         'Precious Beginnings','/static/images/services/baby.jpg'),
+      ('🤰','Maternity Shoot',    'Beautiful Journey',  '/static/images/services/maternity.jpg'),
+      ('🤞','Pre-Wedding',        'Love Stories',       '/static/images/services/prewedding.jpg'),
+      ('🏠','House Warming',      'Sacred Beginnings',  '/static/images/services/house.jpg')
     ] %}
     {% for icon,name,tag,img in svcs %}
     <div class="service-card reveal" onclick="location.href='{{ url_for('services') }}'">
@@ -60,12 +94,12 @@
 <!-- ══ WHY CHOOSE US ══ -->
 <section class="why-strip">
   <div class="text-center reveal">
-    <span class="section-label">Why Thathvamasi</span>
+    <span class="section-label">Why Thathvamasi Clicks</span>
     <h2 class="section-title light">Why <em>Choose Us</em>?</h2>
     <div class="section-divider center" style="background:rgba(212,175,55,0.4)"></div>
   </div>
   <div class="why-grid">
-    <div class="why-item reveal"><div class="why-icon">🏆</div><div class="why-title">5+ Years Experience</div><div class="why-desc">Skilled & experienced photographers who know how to capture your story</div></div>
+    <div class="why-item reveal"><div class="why-icon">🏆</div><div class="why-title">4+ Years Experience</div><div class="why-desc">Skilled & experienced photographers who know how to capture your story</div></div>
     <div class="why-item reveal"><div class="why-icon">🎨</div><div class="why-title">Professional Editing</div><div class="why-desc">High-end retouching & colour grading for perfect, gallery-worthy results</div></div>
     <div class="why-item reveal"><div class="why-icon">⚡</div><div class="why-title">Fast Delivery</div><div class="why-desc">On-time delivery guaranteed — your memories, on schedule</div></div>
     <div class="why-item reveal"><div class="why-icon">🖼️</div><div class="why-title">High Resolution</div><div class="why-desc">Premium quality images you can print at any size beautifully</div></div>
@@ -81,18 +115,22 @@
     <h2 class="section-title">Featured <em>Portfolio</em></h2>
     <div class="section-divider center"></div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:40px auto 0;max-width:1100px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+              gap:12px;margin:40px auto 0;max-width:1100px">
     {% set imgs = [
-      'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=500&q=80',
-      'https://images.unsplash.com/photo-1519741497674-611481863552?w=500&q=80',
-      'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=500&q=80',
-      'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=500&q=80',
-      'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=500&q=80',
-      'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=500&q=80',
+      '/static/images/portfolio/wedding/wedding1.jpg',
+      '/static/images/portfolio/wedding/wedding3.jpg',
+      '/static/images/portfolio/prewedding/prewedding1.jpg',
+      '/static/images/portfolio/maternity/maternity1.jpg',
+      '/static/images/portfolio/babyshoot/baby1.jpg',
+      '/static/images/portfolio/babyshower/babysh1.jpg',
     ] %}
     {% for img in imgs %}
-    <div class="portfolio-item reveal" style="aspect-ratio:1" onclick="openLightbox('{{ img }}')">
-      <img src="{{ img }}" alt="Portfolio" loading="lazy" style="width:100%;height:100%;object-fit:cover"/>
+    <div class="portfolio-item reveal" style="aspect-ratio:1"
+         onclick="openLightbox('{{ img }}')">
+      <img src="{{ img }}" alt="Portfolio"
+           loading="lazy"
+           style="width:100%;height:100%;object-fit:cover"/>
       <div class="portfolio-item-overlay"><span>🔍</span></div>
     </div>
     {% endfor %}
@@ -121,7 +159,10 @@
       <p class="testimonial-text">"{{ msg }}"</p>
       <div class="testimonial-author">
         <div class="author-avatar">{{ name[0] }}</div>
-        <div><div class="author-name">{{ name }}</div><div class="author-loc">{{ loc }}</div></div>
+        <div>
+          <div class="author-name">{{ name }}</div>
+          <div class="author-loc">{{ loc }}</div>
+        </div>
       </div>
     </div>
     {% endfor %}
@@ -132,10 +173,16 @@
 </section>
 
 <!-- ══ CTA STRIP ══ -->
-<section style="background:linear-gradient(135deg,var(--navy) 0%,#2a1a00 100%);padding:80px 40px;text-align:center">
+<section style="background:linear-gradient(135deg,var(--navy) 0%,#2a1a00 100%);
+                padding:80px 40px;text-align:center">
   <span class="section-label" style="justify-content:center;display:block">Ready to Create Magic?</span>
-  <h2 class="section-title light" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px">Let's Capture Your <em>Special Moments</em></h2>
-  <p style="color:rgba(255,255,255,0.5);margin-bottom:32px;font-size:0.9rem">Book your session today and let's create memories together.</p>
-  <a href="{{ url_for('booknow') }}" class="btn-primary" style="font-size:0.85rem;padding:16px 40px">📅 Book Your Session Now</a>
+  <h2 class="section-title light" style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px">
+    Let's Capture Your <em>Special Moments</em>
+  </h2>
+  <p style="color:rgba(255,255,255,0.5);margin-bottom:32px;font-size:0.9rem">
+    Book your session today and let's create memories together.
+  </p>
+  <a href="{{ url_for('booknow') }}" class="btn-primary"
+     style="font-size:0.85rem;padding:16px 40px">📅 Book Your Session Now</a>
 </section>
 {% endblock %}

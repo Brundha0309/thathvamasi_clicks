@@ -109,7 +109,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
               <div>
                 <div class="pkg-select-name">Standard Package</div>
-                <div class="pkg-select-price">₹40,000</div>
+                
               </div>
               <div style="font-size:0.65rem;letter-spacing:2px;background:rgba(212,175,55,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;height:fit-content">BASIC</div>
             </div>
@@ -122,7 +122,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
               <div>
                 <div class="pkg-select-name" style="color:var(--gold)">Classic Package</div>
-                <div class="pkg-select-price">₹55,000</div>
+                
               </div>
               <div style="font-size:0.65rem;letter-spacing:2px;background:var(--gold);color:var(--navy);padding:4px 12px;border-radius:20px;height:fit-content;font-weight:700">POPULAR</div>
             </div>
@@ -135,7 +135,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
               <div>
                 <div class="pkg-select-name">Elite Package</div>
-                <div class="pkg-select-price">₹75,000</div>
+                
               </div>
               <div style="font-size:0.65rem;letter-spacing:2px;background:rgba(212,175,55,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;height:fit-content">LUXURY</div>
             </div>
@@ -263,7 +263,7 @@ function validateStep(step) {
 }
 
 function buildSummary(){
-  const pkgNames = {standard:'Standard — ₹40,000',classic:'Classic — ₹55,000',elite:'Elite — ₹75,000'};
+  const pkgNames = {standard:'Standard',classic:'Classic ',elite:'Elite '};
   const box = document.getElementById('summaryBox');
   box.innerHTML = `
     <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 20px">

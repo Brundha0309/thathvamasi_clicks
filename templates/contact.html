@@ -18,127 +18,354 @@
 <section style="padding:80px 40px;background:var(--warm)">
   <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;max-width:1100px;margin:0 auto;align-items:start">
 
-    <!-- INFO -->
-    <div>
+    <!-- INFO PANEL -->
+    <div class="reveal">
       <span class="section-label">Reach Out</span>
-      <h2 class="section-title">Let's Start a <em>Conversation</em></h2>
+      <h2 class="section-title" style="margin-bottom:10px">Let's Start a <em>Conversation</em></h2>
+      <div class="section-divider" style="margin-bottom:28px"></div>
+      <p style="color:var(--muted);font-size:0.88rem;line-height:1.8;margin-bottom:32px">
+        Whether you want to book a session, ask about packages, or just say hello —
+        we'd love to hear from you. Our team responds within 24 hours.
+      </p>
 
+      <!-- Contact Details -->
       {% set contact_info = [
-        ("📍","Address","Tamil Nadu, India"),
-        ("📞","Phone","+91 XXXXX XXXXX"),
-        ("✉️","Email","hello@thathvamasi.com"),
-        ("🌐","Website","www.thathvamasi.com"),
-        ("🕐","Working Hours","Mon – Sun: 9:00 AM – 8:00 PM")
+        ("📍", "Address",       "Pallipalayam, Erode, Tamil Nadu"),
+        ("📞", "Phone",         "+91 89391 16189"),
+        ("✉️", "Email",         "thathvamasi.clicks@gmail.com"),
+        ("🌐", "Website",       "www.thathvamasiclicks.com"),
+        ("🕐", "Working Hours", "Mon – Sun: 9:00 AM – 8:00 PM")
       ] %}
 
-      {% for icon,label,val in contact_info %}
-      <div style="display:flex;gap:16px;margin-bottom:18px">
-        <div style="width:44px;height:44px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center">
+      {% for icon, label, val in contact_info %}
+      <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:22px">
+        <div style="width:46px;height:46px;border-radius:50%;
+                    background:linear-gradient(135deg,var(--navy),var(--navy2));
+                    display:flex;align-items:center;justify-content:center;
+                    font-size:1.1rem;flex-shrink:0;
+                    border:1px solid rgba(212,175,55,0.3)">
           {{ icon }}
         </div>
         <div>
-          <div style="font-size:12px;color:var(--gold);text-transform:uppercase">{{ label }}</div>
-          <div style="color:var(--text)">{{ val }}</div>
+          <div style="font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;
+                      color:var(--gold);font-weight:700;margin-bottom:3px">
+            {{ label }}
+          </div>
+          <div style="font-size:0.9rem;color:var(--text);font-weight:500">
+            {{ val }}
+          </div>
         </div>
       </div>
       {% endfor %}
 
+      <!-- Social Links — Instagram + WhatsApp only -->
+      <div style="margin-top:28px">
+        <div style="font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;
+                    color:var(--gold);font-weight:700;margin-bottom:12px">
+          Follow Us
+        </div>
+        <div class="footer-social">
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/thathvamasi_clicks?igsh=MXF1dWo3MDBwbjE2NQ=="
+             class="social-link"
+             title="Instagram"
+             target="_blank">📸</a>
+          <!-- WhatsApp -->
+          <a href="https://wa.me/qr/GDXHO6AXMH5RC1"
+             class="social-link"
+             title="WhatsApp"
+             target="_blank">💬</a>
+        </div>
+      </div>
+
+      <!-- Chat on WhatsApp Button — direct link -->
+      <a href="https://wa.me/qr/GDXHO6AXMH5RC1"
+         target="_blank"
+         class="btn-primary"
+         style="margin-top:24px;display:inline-flex;align-items:center;
+                gap:8px;font-size:0.78rem">
+        💬 Chat on WhatsApp
+      </a>
     </div>
 
-    <!-- FORM -->
-    <div style="background:white;padding:40px;border-radius:10px">
+    <!-- CONTACT FORM -->
+    <div class="reveal" style="background:white;padding:40px;border-radius:12px;
+                                box-shadow:0 8px 40px rgba(0,0,0,0.08)">
 
-      <h3>Send Message</h3>
+      <h3 style="font-family:var(--ff-display);font-size:1.7rem;
+                 color:var(--navy);margin-bottom:6px">
+        Send Us a <em style="color:var(--gold)">Message</em>
+      </h3>
+      <p style="color:var(--muted);font-size:0.82rem;margin-bottom:28px">
+        Fill in the form below and we'll get back to you within 24 hours.
+      </p>
 
-      <div class="form-group">
-        <input id="cName" placeholder="Full Name *" class="form-control">
+      <!-- Row 1: Name + Mobile -->
+      <div class="form-row">
+        <div class="form-group">
+          <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                        letter-spacing:1.5px;text-transform:uppercase;
+                        display:block;margin-bottom:7px">
+            Full Name *
+          </label>
+          <input type="text" id="cName"
+                 class="form-control"
+                 placeholder="Your full name"
+                 style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);color:var(--text)"/>
+        </div>
+        <div class="form-group">
+          <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                        letter-spacing:1.5px;text-transform:uppercase;
+                        display:block;margin-bottom:7px">
+            Mobile Number
+          </label>
+          <input type="tel" id="cMobile"
+                 class="form-control"
+                 placeholder="+91 XXXXX XXXXX"
+                 style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);color:var(--text)"/>
+        </div>
       </div>
 
+      <!-- Email -->
       <div class="form-group">
-        <input id="cEmail" placeholder="Email *" class="form-control">
+        <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                      letter-spacing:1.5px;text-transform:uppercase;
+                      display:block;margin-bottom:7px">
+          Email Address *
+        </label>
+        <input type="email" id="cEmail"
+               class="form-control"
+               placeholder="your@email.com"
+               style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);color:var(--text)"/>
       </div>
 
+      <!-- Subject -->
       <div class="form-group">
-        <input id="cMobile" placeholder="Mobile" class="form-control">
+        <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                      letter-spacing:1.5px;text-transform:uppercase;
+                      display:block;margin-bottom:7px">
+          Subject
+        </label>
+        <input type="text" id="cSubject"
+               class="form-control"
+               placeholder="e.g. Wedding photography enquiry"
+               style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);color:var(--text)"/>
       </div>
 
+      <!-- Event Type -->
       <div class="form-group">
-        <input id="cSubject" placeholder="Subject" class="form-control">
+        <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                      letter-spacing:1.5px;text-transform:uppercase;
+                      display:block;margin-bottom:7px">
+          Event Type
+        </label>
+        <select id="cEventType"
+                class="form-control"
+                style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);color:var(--text)">
+          <option value="">— Select event type (optional) —</option>
+          <option>💍 Wedding</option>
+          <option>🤞 Pre-Wedding</option>
+          <option>🎂 Birthday</option>
+          <option>👶 Baby / Newborn Shoot</option>
+          <option>🤰 Maternity Shoot</option>
+          <option>🤱 Baby Shower</option>
+          <option>💑 Engagement</option>
+          <option>💕 Anniversary</option>
+          <option>🌸 Puberty Ceremony</option>
+          <option>🍼 Naming Ceremony</option>
+          <option>🏠 House Warming</option>
+          <option>👗 Modelling</option>
+          <option>📦 Product Photography</option>
+          <option>🏢 Corporate Event</option>
+          <option>👨‍👩‍👧 Family Shoot</option>
+          <option>🚁 Drone Photography</option>
+          <option>✨ Other</option>
+        </select>
       </div>
 
+      <!-- Message -->
       <div class="form-group">
-        <textarea id="cMessage" placeholder="Message *" class="form-control"></textarea>
+        <label style="color:var(--muted);font-size:0.7rem;font-weight:600;
+                      letter-spacing:1.5px;text-transform:uppercase;
+                      display:block;margin-bottom:7px">
+          Message *
+        </label>
+        <textarea id="cMessage"
+                  class="form-control"
+                  rows="5"
+                  placeholder="Tell us about your event, questions, or anything else..."
+                  style="background:#f9f9f9;border-color:rgba(0,0,0,0.12);
+                         color:var(--text);resize:vertical"></textarea>
       </div>
 
-      <button onclick="sendContact()" class="btn-primary" style="width:100%">
-        Send Message
+      <!-- Error message area -->
+      <div id="formError"
+           style="display:none;background:#fff3f3;border:1px solid #f44336;
+                  border-radius:6px;padding:10px 14px;
+                  color:#c0392b;font-size:0.82rem;margin-bottom:14px">
+      </div>
+
+      <!-- Submit Button -->
+      <button id="sendBtn"
+              onclick="sendContact()"
+              class="btn-primary"
+              style="width:100%;justify-content:center;padding:15px;font-size:0.85rem">
+        ✉️ Send Message
       </button>
 
     </div>
-
   </div>
 </section>
 
-<!-- FAQ -->
+<!-- MAP / LOCATION STRIP -->
+<section style="background:var(--navy2);padding:60px 40px;text-align:center">
+  <div style="max-width:700px;margin:0 auto">
+    <h3 style="font-family:var(--ff-display);font-size:1.8rem;
+               color:var(--white);margin-bottom:12px">
+      Find Us <em style="color:var(--gold)">Here</em>
+    </h3>
+    <p style="color:rgba(255,255,255,0.5);margin-bottom:24px;font-size:0.88rem">
+      Reach us anytime — call or WhatsApp us to schedule a meeting.
+    </p>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.2);
+                border-radius:8px;padding:30px">
+      <div style="font-size:2.5rem;margin-bottom:10px">📍</div>
+      <div style="font-size:1rem;color:var(--white);font-weight:600;margin-bottom:4px">
+        Pallipalayam, Erode
+      </div>
+      <div style="font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:20px">
+        Tamil Nadu, India
+      </div>
+      <!-- Google Maps exact link for Pallipalayam, Erode -->
+      <a href="https://www.google.com/maps/search/Pallipalayam,+Erode,+Tamil+Nadu/@11.3009,77.6771,14z"
+         target="_blank"
+         class="btn-primary"
+         style="display:inline-flex;font-size:0.75rem;padding:10px 22px">
+        📌 Open in Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
 <section style="padding:80px 40px;background:var(--warm)">
-  <h2 style="text-align:center">FAQ</h2>
+  <div class="text-center reveal" style="margin-bottom:40px">
+    <span class="section-label">Common Questions</span>
+    <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    <div class="section-divider center"></div>
+  </div>
 
-  {% set faqs = [
-    ("How far in advance should I book?","We recommend booking at least 4–6 weeks in advance for regular events and 3–6 months for weddings."),
-    ("Do you travel outside Tamil Nadu?","Yes, we travel across Tamil Nadu and other states with travel charges."),
-    ("How long for delivery?","Edited photos delivered in 15–21 working days."),
-    ("Do you provide raw photos?","No, only professionally edited photos are delivered."),
-    ("Can I customize package?","Yes, we offer fully customized packages."),
-    ("What if it rains on our shoot day?","We will reschedule at no extra charge or creatively use rain for dramatic shots.")
-  ] %}
+  <div style="max-width:750px;margin:0 auto">
+    {% set faqs = [
+      ("How far in advance should I book?",
+       "We recommend booking at least 4–6 weeks in advance for regular events, and 3–6 months for weddings, as dates fill up quickly."),
+      ("Do you travel outside Tamil Nadu?",
+       "Yes! We cover all of Tamil Nadu and can travel to other states for an additional travel fee. Contact us to discuss."),
+      ("How long before I receive my photos?",
+       "Edited photos are typically delivered within 15–21 working days. Albums take 4–6 weeks. Rush delivery is available on request."),
+      ("Do you provide raw/unedited photos?",
+       "We provide beautifully edited, high-resolution images. Raw files are not included but can be discussed separately."),
+      ("Can I customize a package?",
+       "Absolutely! We love creating custom packages tailored to your specific needs and budget. Just reach out to us."),
+      ("What if it rains on our shoot day?",
+       "We'll reschedule at no extra charge, or creatively embrace the rain for beautiful, dramatic shots — your call!")
+    ] %}
 
-  <div style="max-width:800px;margin:auto">
-
-    {% for q,a in faqs %}
-    <div style="border-bottom:1px solid #ddd;padding:15px 0">
-      <button onclick="toggleFaq(this)" style="width:100%;text-align:left;background:none;border:none;font-weight:bold">
-        {{ q }}
+    {% for q, a in faqs %}
+    <div class="faq-item reveal"
+         style="border-bottom:1px solid rgba(0,0,0,0.08);margin-bottom:0">
+      <button class="faq-toggle"
+              onclick="toggleFaq(this)"
+              style="width:100%;background:none;border:none;padding:20px 0;
+                     display:flex;justify-content:space-between;align-items:center;
+                     cursor:pointer;text-align:left">
+        <span style="font-weight:600;font-size:0.9rem;color:var(--navy)">{{ q }}</span>
+        <span class="faq-icon"
+              style="color:var(--gold);font-size:1.3rem;
+                     flex-shrink:0;margin-left:12px">+</span>
       </button>
-      <div style="display:none;padding-top:10px;color:gray">
+      <div class="faq-answer"
+           style="display:none;padding-bottom:20px;
+                  color:var(--muted);font-size:0.85rem;line-height:1.7">
         {{ a }}
       </div>
     </div>
     {% endfor %}
-
   </div>
 </section>
 
 {% endblock %}
 
 {% block extra_js %}
-
 <script>
 async function sendContact() {
-  const name = document.getElementById('cName').value;
-  const email = document.getElementById('cEmail').value;
-  const mobile = document.getElementById('cMobile').value;
-  const subject = document.getElementById('cSubject').value;
-  const message = document.getElementById('cMessage').value;
+  const name      = document.getElementById('cName').value.trim();
+  const email     = document.getElementById('cEmail').value.trim();
+  const mobile    = document.getElementById('cMobile').value.trim();
+  const subject   = document.getElementById('cSubject').value.trim();
+  const eventType = document.getElementById('cEventType').value.trim();
+  const message   = document.getElementById('cMessage').value.trim();
+  const errorBox  = document.getElementById('formError');
+  const btn       = document.getElementById('sendBtn');
 
-  const res = await fetch('/contact', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({name,email,mobile,subject,message})
-  });
+  // ── Validation ──────────────────────────────────
+  errorBox.style.display = 'none';
 
-  const data = await res.json();
+  if (!name) {
+    showError('Please enter your full name.'); return;
+  }
+  if (!email || !email.includes('@')) {
+    showError('Please enter a valid email address.'); return;
+  }
+  if (!message) {
+    showError('Please write a message before sending.'); return;
+  }
 
-  if(data.success){
-    alert("Message sent successfully!");
+  // ── Send ────────────────────────────────────────
+  btn.textContent = '⏳ Sending...';
+  btn.disabled    = true;
+
+  try {
+    const res  = await fetch('/contact', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name, email, mobile, subject, eventType, message })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showToast("✅ Message sent! We'll reply within 24 hours.", 'success');
+      ['cName','cEmail','cMobile','cSubject','cMessage'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('cEventType').selectedIndex = 0;
+    } else {
+      showError('Something went wrong. Please try again.');
+    }
+  } catch (err) {
+    showError('Network error. Please check your connection and try again.');
+  }
+
+  btn.textContent = '✉️ Send Message';
+  btn.disabled    = false;
+}
+
+function showError(msg) {
+  const box = document.getElementById('formError');
+  box.textContent   = '⚠️ ' + msg;
+  box.style.display = 'block';
+}
+
+function toggleFaq(btn) {
+  const ans  = btn.nextElementSibling;
+  const icon = btn.querySelector('.faq-icon');
+  if (ans.style.display === 'none' || ans.style.display === '') {
+    ans.style.display = 'block';
+    icon.textContent  = '−';
   } else {
-    alert("Failed. Try again.");
+    ans.style.display = 'none';
+    icon.textContent  = '+';
   }
 }
-
-function toggleFaq(btn){
-  const ans = btn.nextElementSibling;
-  ans.style.display = (ans.style.display === "block") ? "none" : "block";
-}
 </script>
-
 {% endblock %}
