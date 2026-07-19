@@ -23,13 +23,13 @@ mail = Mail(app)
 
 # ── DATABASE ─────────────────────────────────────────
 DB_CONFIG = {
-    'host':     os.environ.get('MYSQLHOST',     'localhost'),
-    'port':     int(os.environ.get('MYSQLPORT', 3306)),
-    'database': os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
-    'user':     os.environ.get('MYSQLUSER',     'root'),
-    'password': os.environ.get('MYSQLPASSWORD', 'Brundha@0309')
+    'host':         os.environ.get('MYSQLHOST',     'localhost'),
+    'port':         int(os.environ.get('MYSQLPORT', 3306)),
+    'database':     os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
+    'user':         os.environ.get('MYSQLUSER',     'root'),
+    'password':     os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
+    'ssl_disabled': False,
 }
-
 def get_db():
     try:
         conn = mysql.connector.connect(**DB_CONFIG)

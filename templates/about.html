@@ -21,15 +21,28 @@
       <span class="section-label">Who We Are</span>
       <h2 class="section-title">Passionate <em>Storytellers</em> with a Camera</h2>
       <div class="section-divider"></div>
-      <p>Welcome to <strong>Thathvamasi Clicks</strong> — a boutique photography studio dedicated to capturing life's most meaningful moments with artistry and heart. Our name, rooted in Tamil culture, means <em>"That which you are"</em> — reflecting our belief that authentic moments define us.</p>
-      <p>Founded with a deep love for visual storytelling, we specialize in weddings, family portraits, corporate events, and everything in between. With over 5 years of experience and 500+ happy clients, we bring technical excellence and genuine warmth to every shoot.</p>
-      <p>We don't just take photographs — we create timeless memories that you and your family will cherish for generations.</p>
+      <p>Welcome to <strong>Thathvamasi Clicks</strong> — a professional photography business offering
+        high-quality photography services for all occasions.
+    </p>
+
+    <p>
+        We specialize in weddings, portraits, events, fashion shoots, and product photography.
+        With a keen eye for detail and a passion for storytelling, every shot is carefully crafted
+        to capture genuine emotions and unforgettable moments.
+    </p>
+
+    <p>
+        Our services include both on-location and studio photography, professional photo editing,
+        and custom-designed photo albums, ensuring every memory is beautifully preserved for a lifetime.
+    </p>
+
+    
       <div class="about-values">
         <div class="value-item"><div class="value-icon">❤️</div><div><div class="value-title">Passion First</div><div class="value-desc">Every shoot is treated as our own memory</div></div></div>
         <div class="value-item"><div class="value-icon">🎯</div><div><div class="value-title">Attention to Detail</div><div class="value-desc">No perfect moment goes uncaptured</div></div></div>
         <div class="value-item"><div class="value-icon">🤝</div><div><div class="value-title">Client Bond</div><div class="value-desc">We make you feel relaxed and celebrated</div></div></div>
         <div class="value-item"><div class="value-icon">🏅</div><div><div class="value-title">Premium Quality</div><div class="value-desc">Gallery-worthy images every single time</div></div></div>
-      </div>
+      </div> 
       <div style="margin-top:32px">
         <a href="{{ url_for('booknow') }}" class="btn-primary">📅 Book a Session</a>
       </div>
@@ -47,7 +60,7 @@
   </div>
   <div style="max-width:700px;margin:50px auto 0;position:relative">
     <div style="position:absolute;left:20px;top:0;bottom:0;width:1px;background:rgba(212,175,55,0.3)"></div>
-    {% set milestones = [('2022','Studio Founded','Started with a single camera and an immense passion for visual storytelling.'),('2024','First 100 Clients','Reached our first major milestone — 100 happy families and counting.'),('2024','Drone Added','Expanded services with aerial drone photography for breathtaking perspectives.'),('2025','500+ Projects','Celebrated 500+ successfully completed projects across Tamil Nadu.'),('2026','Team Expansion','Grew to a full team of specialists — photographers, videographers, and editors.'),('2026','100000+ Memories','Over 1000 precious memories captured and delivered to our beloved clients.')] %}
+    {% set milestones = [('2022','Studio Founded','Started with a single camera and an immense passion for visual storytelling.'),('2024','First 100 Clients','Reached our first major milestone — 100 happy families and counting.'),('2024','Drone Added','Expanded services with aerial drone photography for breathtaking perspectives.'),('2025','150+ Projects','Celebrated 150+ successfully completed projects across Tamil Nadu.'),('2026','Team Expansion','Grew to a full team of specialists — photographers, videographers, and editors.'),('2026','100000+ Memories','Over 1000 precious memories captured and delivered to our beloved clients.')] %}
     {% for year,title,desc in milestones %}
     <div class="reveal" style="display:flex;gap:30px;align-items:flex-start;margin-bottom:36px;padding-left:50px;position:relative">
       <div style="position:absolute;left:8px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;color:var(--navy)">✦</div>
