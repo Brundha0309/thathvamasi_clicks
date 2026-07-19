@@ -22,6 +22,7 @@ PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
 mail = Mail(app)
 
 # ── DATABASE ─────────────────────────────────────────
+import ssl
 DB_CONFIG = {
     'host':         os.environ.get('MYSQLHOST',     'localhost'),
     'port':         int(os.environ.get('MYSQLPORT', 3306)),
@@ -29,6 +30,7 @@ DB_CONFIG = {
     'user':         os.environ.get('MYSQLUSER',     'root'),
     'password':     os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
     'ssl_disabled': False,
+    'connection_timeout' : 30,
 }
 def get_db():
     try:
@@ -36,7 +38,7 @@ def get_db():
         print("✅ Database Connected")
         return conn
     except Error as e:
-        print("❌ Database Error:", e)
+        print(f"❌ Database Error: {e}")
         return None
 
 def init_db():
@@ -151,27 +153,35 @@ def booknow():
         conn = get_db()
         bid = None
 
-        if conn:
+        try:
+           conn = get_db()
+           if conn:
             cur = conn.cursor()
             cur.execute("""
-                INSERT INTO bookings(
-                    full_name,mobile,email,event_type,event_date,
-                    start_time,end_time,venue_name,city,
-                    full_address,package,special_requests
-                ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            """, (
-                d['full_name'],d['mobile'],d['email'],
-                d['event_type'],d['event_date'],
-                d['start_time'],d['end_time'],
-                d['venue_name'],d['city'],
-                d['full_address'],d['package'],
-                d.get('special_requests','')
-            ))
+                    INSERT INTO bookings(
+                         full_name,mobile,email,event_type,event_date,
+                        start_time,end_time,venue_name,city,
+                        full_address,package,special_requests
+                    ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (
+                    d['full_name'],d['mobile'],d['email'],
+                    d['event_type'],d['event_date'],
+                    d['start_time'],d['end_time'],
+                    d['venue_name'],d['city'],
+                    d['full_address'],d['package'],
+                    d.get('special_requests','')
+           ))
             conn.commit()
             bid = cur.lastrowid
             cur.close()
             conn.close()
             print(f"✅ Booking saved — ID #{bid}")
+          else:
+           bid = "N/A"
+           print("❌ DB not connected — email only mode")
+        except Exception as db_err:
+            bid = "N/A"
+            print(f"❌ DB Exception: {db_err}")
 
         # ── Email to Photographer ──
         try:
