@@ -22,7 +22,6 @@ PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
 mail = Mail(app)
 
 # ── DATABASE ─────────────────────────────────────────
-import ssl
 DB_CONFIG = {
     'host':         os.environ.get('MYSQLHOST',     'localhost'),
     'port':         int(os.environ.get('MYSQLPORT', 3306)),
@@ -30,8 +29,9 @@ DB_CONFIG = {
     'user':         os.environ.get('MYSQLUSER',     'root'),
     'password':     os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
     'ssl_disabled': False,
-    'connection_timeout' : 30,
+    'connection_timeout': 30,
 }
+
 def get_db():
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
@@ -43,7 +43,8 @@ def get_db():
 
 def init_db():
     conn = get_db()
-    if not conn: return
+    if not conn:
+        return
     cur = conn.cursor()
     cur.execute("""CREATE TABLE IF NOT EXISTS bookings(
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -111,9 +112,11 @@ def contact():
             cur = conn.cursor()
             cur.execute(
                 "INSERT INTO contacts(name,email,mobile,subject,message) VALUES(%s,%s,%s,%s,%s)",
-                (d['name'],d['email'],d.get('mobile',''),d.get('subject',''),d['message'])
+                (d['name'], d['email'], d.get('mobile', ''), d.get('subject', ''), d['message'])
             )
-            conn.commit(); cur.close(); conn.close()
+            conn.commit()
+            cur.close()
+            conn.close()
         try:
             mail.send(Message(
                 subject=f"New Contact: {d.get('subject','General Inquiry')}",
@@ -154,31 +157,30 @@ def booknow():
         bid = None
 
         try:
-           conn = get_db()
-           if conn:
-            cur = conn.cursor()
-            cur.execute("""
+            if conn:
+                cur = conn.cursor()
+                cur.execute("""
                     INSERT INTO bookings(
-                         full_name,mobile,email,event_type,event_date,
+                        full_name,mobile,email,event_type,event_date,
                         start_time,end_time,venue_name,city,
                         full_address,package,special_requests
                     ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        """, (
-                    d['full_name'],d['mobile'],d['email'],
-                    d['event_type'],d['event_date'],
-                    d['start_time'],d['end_time'],
-                    d['venue_name'],d['city'],
-                    d['full_address'],d['package'],
-                    d.get('special_requests','')
-           ))
-            conn.commit()
-            bid = cur.lastrowid
-            cur.close()
-            conn.close()
-            print(f"✅ Booking saved — ID #{bid}")
-          else:
-           bid = "N/A"
-           print("❌ DB not connected — email only mode")
+                """, (
+                    d['full_name'], d['mobile'], d['email'],
+                    d['event_type'], d['event_date'],
+                    d['start_time'], d['end_time'],
+                    d['venue_name'], d['city'],
+                    d['full_address'], d['package'],
+                    d.get('special_requests', '')
+                ))
+                conn.commit()
+                bid = cur.lastrowid
+                cur.close()
+                conn.close()
+                print(f"✅ Booking saved — ID #{bid}")
+            else:
+                bid = "N/A"
+                print("❌ DB not connected — email only mode")
         except Exception as db_err:
             bid = "N/A"
             print(f"❌ DB Exception: {db_err}")
@@ -273,9 +275,11 @@ def add_review():
             cur = conn.cursor()
             cur.execute(
                 "INSERT INTO testimonials(name,location,rating,message) VALUES(%s,%s,%s,%s)",
-                (d['name'],d.get('location',''),d.get('rating',5),d['message'])
+                (d['name'], d.get('location', ''), d.get('rating', 5), d['message'])
             )
-            conn.commit(); cur.close(); conn.close()
+            conn.commit()
+            cur.close()
+            conn.close()
         except Exception as e:
             print(e)
     return jsonify({'success': True})
