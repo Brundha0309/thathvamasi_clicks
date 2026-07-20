@@ -106,7 +106,7 @@ def services(): return render_template('services.html')
 def portfolio(): return render_template('portfolio.html')
 
 @app.route('/pricing')
-def pricing(): return render_template('pricing.html')
+def pricing(): return render_template('packages.html')
 
 @app.route('/testimonials')
 def testimonials(): return render_template('testimonials.html')
