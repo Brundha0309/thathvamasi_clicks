@@ -12,13 +12,13 @@ app.config['MAIL_SERVER']         = 'smtp.gmail.com'
 app.config['MAIL_PORT']           = 587
 app.config['MAIL_USE_TLS']        = True
 app.config['MAIL_USE_SSL']        = False
-app.config['MAIL_USERNAME']       = os.environ.get('MAIL_USERNAME', 'thathvamasi.clicks@gmail.com')
-app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', 'nzwhkcqghfzsdnbq')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', 'thathvamasi.clicks@gmail.com')
+app.config['MAIL_USERNAME']       = 'thathvamasi.clicks@gmail.com'
+app.config['MAIL_PASSWORD']       = 'nzwhkcqghfzsdnbq'
+app.config['MAIL_DEFAULT_SENDER'] = 'thathvamasi.clicks@gmail.com'
 app.config['MAIL_DEBUG']          = False
 app.config['MAIL_SUPPRESS_SEND']  = False
 
-PHOTOGRAPHER_EMAIL = os.environ.get('PHOTOGRAPHER_EMAIL', 'thathvamasi.clicks@gmail.com')
+PHOTOGRAPHER_EMAIL =  'thathvamasi.clicks@gmail.com'
 
 mail = Mail(app)
 
