@@ -276,6 +276,9 @@ def add_review():
     except Exception as e:
         print(f"❌ Review error: {e}")
     return jsonify({'success':True})
+@app.route('/ping')
+def ping():
+    return 'pong', 200
 
 
 # ── RUN ──────────────────────────────────────────────
