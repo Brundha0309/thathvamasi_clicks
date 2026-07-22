@@ -6,8 +6,8 @@ from mysql.connector import Error
 
 app = Flask(__name__)
 
-# ── MAIL CONFIG ──────────────────────────────────────
-app.config['SECRET_KEY']          = os.environ.get('SECRET_KEY', 'thathvamasi_secret_2024')
+# ── MAIL — hardcoded for reliability ─────────────────
+app.config['SECRET_KEY']          = 'thathvamasi_secret_2024'
 app.config['MAIL_SERVER']         = 'smtp.gmail.com'
 app.config['MAIL_PORT']           = 587
 app.config['MAIL_USE_TLS']        = True
@@ -18,26 +18,24 @@ app.config['MAIL_DEFAULT_SENDER'] = 'thathvamasi.clicks@gmail.com'
 app.config['MAIL_DEBUG']          = False
 app.config['MAIL_SUPPRESS_SEND']  = False
 
-PHOTOGRAPHER_EMAIL =  'thathvamasi.clicks@gmail.com'
+PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
 
 mail = Mail(app)
 
-# ── DB CONFIG ─────────────────────────────────────────
+# ── DATABASE ─────────────────────────────────────────
 def get_db():
     try:
-        # Build connection args
+        host = os.environ.get('MYSQLHOST', 'localhost')
         conn_args = {
-            'host':     os.environ.get('MYSQLHOST', 'localhost'),
-            'port':     int(os.environ.get('MYSQLPORT', 3306)),
-            'database': os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
-            'user':     os.environ.get('MYSQLUSER', 'root'),
-            'password': os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
+            'host':               host,
+            'port':               int(os.environ.get('MYSQLPORT', 3306)),
+            'database':           os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
+            'user':               os.environ.get('MYSQLUSER', 'root'),
+            'password':           os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
             'connection_timeout': 30,
         }
-        # Add SSL only if connecting to Aiven (not localhost)
-        if 'aivencloud' in os.environ.get('MYSQLHOST', ''):
+        if 'aivencloud' in host:
             conn_args['ssl_disabled'] = False
-
         conn = mysql.connector.connect(**conn_args)
         print("✅ DB Connected")
         return conn
@@ -48,7 +46,7 @@ def get_db():
 def init_db():
     conn = get_db()
     if not conn:
-        print("⚠️ Skipping table creation — no DB")
+        print("⚠️ No DB connection")
         return
     try:
         cur = conn.cursor()
@@ -90,7 +88,7 @@ def init_db():
         conn.close()
         print("✅ Tables Ready")
     except Exception as e:
-        print(f"❌ Table creation error: {e}")
+        print(f"❌ Table error: {e}")
 
 # ── ROUTES ───────────────────────────────────────────
 @app.route('/')
@@ -116,23 +114,19 @@ def contact():
     if request.method == 'POST':
         d = request.get_json()
         if not d:
-            return jsonify({'success': False, 'message': 'No data received'})
-
-        # Save to DB
+            return jsonify({'success':False,'message':'No data'})
         try:
             conn = get_db()
             if conn:
                 cur = conn.cursor()
                 cur.execute(
                     "INSERT INTO contacts(name,email,mobile,subject,message) VALUES(%s,%s,%s,%s,%s)",
-                    (d.get('name',''), d.get('email',''), d.get('mobile',''),
-                     d.get('subject',''), d.get('message',''))
+                    (d.get('name',''),d.get('email',''),d.get('mobile',''),
+                     d.get('subject',''),d.get('message',''))
                 )
                 conn.commit(); cur.close(); conn.close()
         except Exception as e:
-            print(f"❌ Contact DB error: {e}")
-
-        # Send email
+            print(f"❌ Contact DB: {e}")
         try:
             mail.send(Message(
                 subject=f"New Contact: {d.get('subject','Inquiry')}",
@@ -140,25 +134,19 @@ def contact():
                 html=f"""<div style="font-family:Arial;max-width:600px;margin:auto">
                 <div style="background:#0d0d1a;padding:20px;text-align:center">
                   <h2 style="color:#d4af37">Thathvamasi Clicks</h2>
-                  <p style="color:#fff;font-size:13px">New Contact Form Message</p>
                 </div>
                 <div style="padding:24px;background:#fff">
                   <p><b>Name:</b> {d.get('name','')}</p>
                   <p><b>Email:</b> {d.get('email','')}</p>
-                  <p><b>Mobile:</b> {d.get('mobile','Not provided')}</p>
-                  <p><b>Event Type:</b> {d.get('eventType','Not specified')}</p>
-                  <p><b>Subject:</b> {d.get('subject','No subject')}</p>
+                  <p><b>Mobile:</b> {d.get('mobile','')}</p>
+                  <p><b>Event:</b> {d.get('eventType','')}</p>
                   <p><b>Message:</b><br>{d.get('message','')}</p>
-                </div>
-                <div style="background:#0d0d1a;padding:14px;text-align:center">
-                  <p style="color:#d4af37;margin:0;font-size:12px">Thathvamasi Clicks | Pallipalayam, Erode</p>
                 </div></div>"""
             ))
             print("✅ Contact email sent")
         except Exception as e:
             print(f"❌ Contact email error: {e}")
-
-        return jsonify({'success': True, 'message': 'Message sent successfully!'})
+        return jsonify({'success':True,'message':'Message sent!'})
     return render_template('contact.html')
 
 
@@ -166,25 +154,22 @@ def contact():
 def booknow():
     if request.method == 'POST':
         d = request.get_json()
-        print(f"📥 Booking data received: {d}")
-
+        print(f"📥 Booking received: {d}")
         if not d:
-            return jsonify({'success': False, 'message': 'No data received'})
+            return jsonify({'success':False,'message':'No data received'})
 
         bid = None
 
-        # ── Save to DB ──
+        # Save to DB
         try:
             conn = get_db()
             if conn:
                 cur = conn.cursor()
-                cur.execute("""
-                    INSERT INTO bookings(
-                        full_name,mobile,email,event_type,event_date,
-                        start_time,end_time,venue_name,city,
-                        full_address,package,special_requests
-                    ) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (
+                cur.execute("""INSERT INTO bookings(
+                    full_name,mobile,email,event_type,event_date,
+                    start_time,end_time,venue_name,city,
+                    full_address,package,special_requests
+                ) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (
                     d.get('full_name',''), d.get('mobile',''), d.get('email',''),
                     d.get('event_type',''), d.get('event_date',''),
                     d.get('start_time',''), d.get('end_time',''),
@@ -194,84 +179,82 @@ def booknow():
                 ))
                 conn.commit()
                 bid = cur.lastrowid
-                cur.close()
-                conn.close()
-                print(f"✅ Booking saved — ID #{bid}")
+                cur.close(); conn.close()
+                print(f"✅ Booking saved ID #{bid}")
             else:
                 bid = "N/A"
-                print("⚠️ No DB — email only mode")
         except Exception as e:
             bid = "N/A"
-            print(f"❌ DB save error: {e}")
+            print(f"❌ DB error: {e}")
 
-        # ── Email to Photographer ──
+        # Email to Photographer
         try:
-            mail.send(Message(
-                subject=f"📸 New Booking #{bid} — {d.get('event_type','')}",
-                recipients=[PHOTOGRAPHER_EMAIL],
-                html=f"""<div style="font-family:Arial;max-width:600px;margin:auto">
-                <div style="background:#0d0d1a;padding:20px;text-align:center">
-                  <h2 style="color:#d4af37;margin:0">Thathvamasi Clicks</h2>
-                  <p style="color:#fff;font-size:13px">New Booking Received!</p>
-                </div>
-                <div style="padding:24px;background:#fff">
-                  <table style="width:100%;border-collapse:collapse;font-size:14px">
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888;width:140px"><b>Booking ID</b></td><td style="padding:10px;color:#d4af37;font-weight:bold">#{bid}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Client Name</b></td><td style="padding:10px">{d.get('full_name','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Mobile</b></td><td style="padding:10px">{d.get('mobile','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Email</b></td><td style="padding:10px">{d.get('email','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Event</b></td><td style="padding:10px">{d.get('event_type','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Date</b></td><td style="padding:10px">{d.get('event_date','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Time</b></td><td style="padding:10px">{d.get('start_time','')} – {d.get('end_time','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Venue</b></td><td style="padding:10px">{d.get('venue_name','')}, {d.get('city','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Address</b></td><td style="padding:10px">{d.get('full_address','')}</td></tr>
-                    <tr style="border-bottom:1px solid #eee"><td style="padding:10px;color:#888"><b>Package</b></td><td style="padding:10px;color:#d4af37;font-weight:bold">{d.get('package','').title()}</td></tr>
-                    <tr><td style="padding:10px;color:#888;vertical-align:top"><b>Notes</b></td><td style="padding:10px">{d.get('special_requests','None')}</td></tr>
-                  </table>
-                </div>
-                <div style="background:#0d0d1a;padding:14px;text-align:center">
-                  <p style="color:#d4af37;margin:0;font-size:12px">Thathvamasi Clicks | +91 89391 16189 | Pallipalayam, Erode</p>
-                </div></div>"""
-            ))
-            print("✅ Email sent to photographer")
+            print("📧 Sending photographer email...")
+            msg = Message(
+                subject=f"New Booking #{bid} — {d.get('event_type','')}",
+                recipients=[PHOTOGRAPHER_EMAIL]
+            )
+            msg.html = f"""<div style="font-family:Arial;max-width:600px;margin:auto">
+            <div style="background:#0d0d1a;padding:20px;text-align:center">
+              <h2 style="color:#d4af37">Thathvamasi Clicks — New Booking!</h2>
+            </div>
+            <div style="padding:24px;background:#fff">
+              <p><b>Booking ID:</b> #{bid}</p>
+              <p><b>Name:</b> {d.get('full_name','')}</p>
+              <p><b>Mobile:</b> {d.get('mobile','')}</p>
+              <p><b>Email:</b> {d.get('email','')}</p>
+              <p><b>Event:</b> {d.get('event_type','')}</p>
+              <p><b>Date:</b> {d.get('event_date','')}</p>
+              <p><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
+              <p><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
+              <p><b>Address:</b> {d.get('full_address','')}</p>
+              <p><b>Package:</b> {d.get('package','').title()}</p>
+              <p><b>Notes:</b> {d.get('special_requests','None')}</p>
+            </div>
+            <div style="background:#0d0d1a;padding:14px;text-align:center">
+              <p style="color:#d4af37;margin:0">Thathvamasi Clicks | +91 89391 16189</p>
+            </div></div>"""
+            mail.send(msg)
+            print("✅ Photographer email sent!")
         except Exception as e:
-            print(f"❌ Photographer email error: {e}")
+            print(f"❌ Photographer email FAILED: {e}")
 
-        # ── Confirmation Email to Client ──
+        # Confirmation to Client
         try:
-            mail.send(Message(
-                subject=f"✅ Booking Confirmed #{bid} — Thathvamasi Clicks",
-                recipients=[d.get('email','')],
-                html=f"""<div style="font-family:Arial;max-width:600px;margin:auto">
-                <div style="background:#0d0d1a;padding:20px;text-align:center">
-                  <h1 style="color:#d4af37;margin:0">Thathvamasi Clicks</h1>
-                  <p style="color:#fff;margin:6px 0">Capturing Moments, Creating Memories</p>
-                </div>
-                <div style="padding:30px;background:#fff">
-                  <h2 style="color:#0d0d1a">Hi {d.get('full_name','')}! 🎉</h2>
-                  <p style="color:#555;line-height:1.7">Thank you for booking with <b>Thathvamasi Clicks</b>! Your booking has been received and our team will contact you shortly.</p>
-                  <div style="background:#f9f9f9;border-left:4px solid #d4af37;padding:16px;margin:20px 0;border-radius:4px">
-                    <p style="margin:6px 0"><b>Booking ID:</b> #{bid}</p>
-                    <p style="margin:6px 0"><b>Event:</b> {d.get('event_type','')}</p>
-                    <p style="margin:6px 0"><b>Date:</b> {d.get('event_date','')}</p>
-                    <p style="margin:6px 0"><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
-                    <p style="margin:6px 0"><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
-                    <p style="margin:6px 0"><b>Package:</b> {d.get('package','').title()}</p>
-                  </div>
-                  <p style="color:#555">For queries: <b>+91 89391 16189</b> | thathvamasi.clicks@gmail.com</p>
-                  <p style="color:#555">With love,<br><b>Team Thathvamasi Clicks</b></p>
-                </div>
-                <div style="background:#0d0d1a;padding:15px;text-align:center">
-                  <p style="color:#d4af37;margin:0;font-size:12px">Thathvamasi Clicks | Pallipalayam, Erode, Tamil Nadu</p>
-                </div></div>"""
-            ))
-            print("✅ Confirmation email sent to client")
+            print("📧 Sending client email...")
+            msg2 = Message(
+                subject=f"Booking Confirmed #{bid} — Thathvamasi Clicks",
+                recipients=[d.get('email','')]
+            )
+            msg2.html = f"""<div style="font-family:Arial;max-width:600px;margin:auto">
+            <div style="background:#0d0d1a;padding:20px;text-align:center">
+              <h1 style="color:#d4af37">Thathvamasi Clicks</h1>
+              <p style="color:#fff">Capturing Moments, Creating Memories</p>
+            </div>
+            <div style="padding:30px;background:#fff">
+              <h2>Hi {d.get('full_name','')}! Booking Confirmed 🎉</h2>
+              <div style="background:#f9f9f9;border-left:4px solid #d4af37;padding:16px;margin:20px 0">
+                <p><b>Booking ID:</b> #{bid}</p>
+                <p><b>Event:</b> {d.get('event_type','')}</p>
+                <p><b>Date:</b> {d.get('event_date','')}</p>
+                <p><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
+                <p><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
+                <p><b>Package:</b> {d.get('package','').title()}</p>
+              </div>
+              <p>For queries: <b>+91 89391 16189</b></p>
+              <p>With love,<br><b>Team Thathvamasi Clicks</b></p>
+            </div>
+            <div style="background:#0d0d1a;padding:15px;text-align:center">
+              <p style="color:#d4af37;margin:0">Thathvamasi Clicks | Pallipalayam, Erode</p>
+            </div></div>"""
+            mail.send(msg2)
+            print("✅ Client email sent!")
         except Exception as e:
-            print(f"❌ Client email error: {e}")
+            print(f"❌ Client email FAILED: {e}")
 
         return jsonify({
-            'success': True,
-            'message': f'Booking confirmed! ID #{bid}. Check your email.',
+            'success':    True,
+            'message':    f'Booking confirmed! ID #{bid}. Check your email.',
             'booking_id': bid
         })
 
@@ -287,12 +270,12 @@ def add_review():
             cur = conn.cursor()
             cur.execute(
                 "INSERT INTO testimonials(name,location,rating,message) VALUES(%s,%s,%s,%s)",
-                (d.get('name',''), d.get('location',''), d.get('rating',5), d.get('message',''))
+                (d.get('name',''),d.get('location',''),d.get('rating',5),d.get('message',''))
             )
             conn.commit(); cur.close(); conn.close()
     except Exception as e:
         print(f"❌ Review error: {e}")
-    return jsonify({'success': True})
+    return jsonify({'success':True})
 
 
 # ── RUN ──────────────────────────────────────────────
