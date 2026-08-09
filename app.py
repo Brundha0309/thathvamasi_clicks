@@ -16,11 +16,14 @@ def get_db():
     try:
         host = os.environ.get('MYSQLHOST', 'localhost')
         
-        # Get port safely
+        # Force port to integer safely
+        raw_port = os.environ.get('MYSQLPORT', '3306')
         try:
-            port = int(os.environ.get('MYSQLPORT', '3306').strip())
-        except:
+            port = int(str(raw_port).strip())
+        except (ValueError, TypeError):
             port = 3306
+        
+        print(f"🔌 Connecting to {host}:{port}")
 
         conn_args = {
             'host':               host,
@@ -30,6 +33,7 @@ def get_db():
             'password':           os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
             'connection_timeout': 30,
         }
+        
         if 'aivencloud' in host:
             conn_args['ssl_disabled'] = False
 
@@ -40,6 +44,7 @@ def get_db():
         print(f"❌ DB Error: {e}")
         return None
 
+    
 def init_db():
     conn = get_db()
     if not conn:
