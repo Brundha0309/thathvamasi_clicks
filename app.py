@@ -1,26 +1,15 @@
 import os
+import resend
 from flask import Flask, render_template, request, jsonify
-from flask_mail import Mail, Message
 import mysql.connector
 from mysql.connector import Error
 
 app = Flask(__name__)
 
-# ── MAIL — hardcoded for reliability ─────────────────
-app.config['SECRET_KEY']          = 'thathvamasi_secret_2024'
-app.config['MAIL_SERVER']         = 'smtp.gmail.com'
-app.config['MAIL_PORT']           = 587
-app.config['MAIL_USE_TLS']        = True
-app.config['MAIL_USE_SSL']        = False
-app.config['MAIL_USERNAME']       = 'thathvamasi.clicks@gmail.com'
-app.config['MAIL_PASSWORD']       = 'nzwhkcqghfzsdnbq'
-app.config['MAIL_DEFAULT_SENDER'] = 'thathvamasi.clicks@gmail.com'
-app.config['MAIL_DEBUG']          = False
-app.config['MAIL_SUPPRESS_SEND']  = False
-
+# ── RESEND EMAIL CONFIG ───────────────────────────────
+resend.api_key = os.environ.get('RESEND_API_KEY', 're_ULkbrxc9_JZFczrV9s3YNArATwdpPUwZ7')
 PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
-
-mail = Mail(app)
+FROM_EMAIL = 'onboarding@resend.dev'
 
 # ── DATABASE ─────────────────────────────────────────
 def get_db():
@@ -94,6 +83,9 @@ def init_db():
 @app.route('/')
 def home(): return render_template('index.html')
 
+@app.route('/ping')
+def ping(): return 'pong', 200
+
 @app.route('/about')
 def about(): return render_template('about.html')
 
@@ -115,38 +107,51 @@ def contact():
         d = request.get_json()
         if not d:
             return jsonify({'success':False,'message':'No data'})
+
+        # Save to DB
         try:
             conn = get_db()
             if conn:
                 cur = conn.cursor()
                 cur.execute(
                     "INSERT INTO contacts(name,email,mobile,subject,message) VALUES(%s,%s,%s,%s,%s)",
-                    (d.get('name',''),d.get('email',''),d.get('mobile',''),
-                     d.get('subject',''),d.get('message',''))
+                    (d.get('name',''), d.get('email',''), d.get('mobile',''),
+                     d.get('subject',''), d.get('message',''))
                 )
                 conn.commit(); cur.close(); conn.close()
         except Exception as e:
             print(f"❌ Contact DB: {e}")
+
+        # Send email via Resend
         try:
-            mail.send(Message(
-                subject=f"New Contact: {d.get('subject','Inquiry')}",
-                recipients=[PHOTOGRAPHER_EMAIL],
-                html=f"""<div style="font-family:Arial;max-width:600px;margin:auto">
-                <div style="background:#0d0d1a;padding:20px;text-align:center">
-                  <h2 style="color:#d4af37">Thathvamasi Clicks</h2>
-                </div>
-                <div style="padding:24px;background:#fff">
-                  <p><b>Name:</b> {d.get('name','')}</p>
-                  <p><b>Email:</b> {d.get('email','')}</p>
-                  <p><b>Mobile:</b> {d.get('mobile','')}</p>
-                  <p><b>Event:</b> {d.get('eventType','')}</p>
-                  <p><b>Message:</b><br>{d.get('message','')}</p>
-                </div></div>"""
-            ))
-            print("✅ Contact email sent")
+            resend.Emails.send({
+                "from": f"Thathvamasi Clicks <{FROM_EMAIL}>",
+                "to": [PHOTOGRAPHER_EMAIL],
+                "subject": f"New Contact: {d.get('subject','General Inquiry')}",
+                "html": f"""
+                <div style="font-family:Arial;max-width:600px;margin:auto">
+                  <div style="background:#0d0d1a;padding:20px;text-align:center">
+                    <h2 style="color:#d4af37">Thathvamasi Clicks</h2>
+                    <p style="color:#fff">New Contact Form Message</p>
+                  </div>
+                  <div style="padding:24px;background:#fff">
+                    <p><b>Name:</b> {d.get('name','')}</p>
+                    <p><b>Email:</b> {d.get('email','')}</p>
+                    <p><b>Mobile:</b> {d.get('mobile','Not provided')}</p>
+                    <p><b>Event Type:</b> {d.get('eventType','Not specified')}</p>
+                    <p><b>Subject:</b> {d.get('subject','No subject')}</p>
+                    <p><b>Message:</b><br>{d.get('message','')}</p>
+                  </div>
+                  <div style="background:#0d0d1a;padding:14px;text-align:center">
+                    <p style="color:#d4af37;margin:0">Thathvamasi Clicks | Pallipalayam, Erode</p>
+                  </div>
+                </div>"""
+            })
+            print("✅ Contact email sent via Resend")
         except Exception as e:
-            print(f"❌ Contact email error: {e}")
-        return jsonify({'success':True,'message':'Message sent!'})
+            print(f"❌ Contact Resend error: {e}")
+
+        return jsonify({'success':True,'message':'Message sent successfully!'})
     return render_template('contact.html')
 
 
@@ -180,77 +185,135 @@ def booknow():
                 conn.commit()
                 bid = cur.lastrowid
                 cur.close(); conn.close()
-                print(f"✅ Booking saved ID #{bid}")
+                print(f"✅ Booking saved — ID #{bid}")
             else:
                 bid = "N/A"
+                print("⚠️ No DB — email only mode")
         except Exception as e:
             bid = "N/A"
             print(f"❌ DB error: {e}")
 
-        # Email to Photographer
+        # ── Email to Photographer via Resend ──
         try:
-            print("📧 Sending photographer email...")
-            msg = Message(
-                subject=f"New Booking #{bid} — {d.get('event_type','')}",
-                recipients=[PHOTOGRAPHER_EMAIL]
-            )
-            msg.html = f"""<div style="font-family:Arial;max-width:600px;margin:auto">
-            <div style="background:#0d0d1a;padding:20px;text-align:center">
-              <h2 style="color:#d4af37">Thathvamasi Clicks — New Booking!</h2>
-            </div>
-            <div style="padding:24px;background:#fff">
-              <p><b>Booking ID:</b> #{bid}</p>
-              <p><b>Name:</b> {d.get('full_name','')}</p>
-              <p><b>Mobile:</b> {d.get('mobile','')}</p>
-              <p><b>Email:</b> {d.get('email','')}</p>
-              <p><b>Event:</b> {d.get('event_type','')}</p>
-              <p><b>Date:</b> {d.get('event_date','')}</p>
-              <p><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
-              <p><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
-              <p><b>Address:</b> {d.get('full_address','')}</p>
-              <p><b>Package:</b> {d.get('package','').title()}</p>
-              <p><b>Notes:</b> {d.get('special_requests','None')}</p>
-            </div>
-            <div style="background:#0d0d1a;padding:14px;text-align:center">
-              <p style="color:#d4af37;margin:0">Thathvamasi Clicks | +91 89391 16189</p>
-            </div></div>"""
-            mail.send(msg)
-            print("✅ Photographer email sent!")
+            print("📧 Sending photographer email via Resend...")
+            resend.Emails.send({
+                "from": f"Thathvamasi Clicks <{FROM_EMAIL}>",
+                "to": [PHOTOGRAPHER_EMAIL],
+                "subject": f"📸 New Booking #{bid} — {d.get('event_type','')}",
+                "html": f"""
+                <div style="font-family:Arial;max-width:600px;margin:auto">
+                  <div style="background:#0d0d1a;padding:20px;text-align:center">
+                    <h2 style="color:#d4af37;margin:0">Thathvamasi Clicks</h2>
+                    <p style="color:#fff;font-size:13px">🎉 New Booking Received!</p>
+                  </div>
+                  <div style="padding:28px;background:#fff">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px">
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888;width:140px"><b>Booking ID</b></td>
+                        <td style="padding:10px;color:#d4af37;font-weight:bold">#{bid}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Client Name</b></td>
+                        <td style="padding:10px">{d.get('full_name','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Mobile</b></td>
+                        <td style="padding:10px">{d.get('mobile','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Email</b></td>
+                        <td style="padding:10px">{d.get('email','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Event</b></td>
+                        <td style="padding:10px">{d.get('event_type','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Date</b></td>
+                        <td style="padding:10px">{d.get('event_date','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Time</b></td>
+                        <td style="padding:10px">{d.get('start_time','')} – {d.get('end_time','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Venue</b></td>
+                        <td style="padding:10px">{d.get('venue_name','')}, {d.get('city','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Address</b></td>
+                        <td style="padding:10px">{d.get('full_address','')}</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:10px;color:#888"><b>Package</b></td>
+                        <td style="padding:10px;color:#d4af37;font-weight:bold">{d.get('package','').title()}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:10px;color:#888;vertical-align:top"><b>Notes</b></td>
+                        <td style="padding:10px">{d.get('special_requests','None')}</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div style="background:#0d0d1a;padding:14px;text-align:center">
+                    <p style="color:#d4af37;margin:0;font-size:12px">
+                      Thathvamasi Clicks | +91 89391 16189 | Pallipalayam, Erode
+                    </p>
+                  </div>
+                </div>"""
+            })
+            print("✅ Photographer email sent via Resend!")
         except Exception as e:
-            print(f"❌ Photographer email FAILED: {e}")
+            print(f"❌ Photographer Resend error: {e}")
 
-        # Confirmation to Client
+        # ── Confirmation Email to Client via Resend ──
         try:
-            print("📧 Sending client email...")
-            msg2 = Message(
-                subject=f"Booking Confirmed #{bid} — Thathvamasi Clicks",
-                recipients=[d.get('email','')]
-            )
-            msg2.html = f"""<div style="font-family:Arial;max-width:600px;margin:auto">
-            <div style="background:#0d0d1a;padding:20px;text-align:center">
-              <h1 style="color:#d4af37">Thathvamasi Clicks</h1>
-              <p style="color:#fff">Capturing Moments, Creating Memories</p>
-            </div>
-            <div style="padding:30px;background:#fff">
-              <h2>Hi {d.get('full_name','')}! Booking Confirmed 🎉</h2>
-              <div style="background:#f9f9f9;border-left:4px solid #d4af37;padding:16px;margin:20px 0">
-                <p><b>Booking ID:</b> #{bid}</p>
-                <p><b>Event:</b> {d.get('event_type','')}</p>
-                <p><b>Date:</b> {d.get('event_date','')}</p>
-                <p><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
-                <p><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
-                <p><b>Package:</b> {d.get('package','').title()}</p>
-              </div>
-              <p>For queries: <b>+91 89391 16189</b></p>
-              <p>With love,<br><b>Team Thathvamasi Clicks</b></p>
-            </div>
-            <div style="background:#0d0d1a;padding:15px;text-align:center">
-              <p style="color:#d4af37;margin:0">Thathvamasi Clicks | Pallipalayam, Erode</p>
-            </div></div>"""
-            mail.send(msg2)
-            print("✅ Client email sent!")
+            print("📧 Sending client confirmation via Resend...")
+            resend.Emails.send({
+                "from": f"Thathvamasi Clicks <{FROM_EMAIL}>",
+                "to": [d.get('email','')],
+                "subject": f"✅ Booking Confirmed #{bid} — Thathvamasi Clicks",
+                "html": f"""
+                <div style="font-family:Arial;max-width:600px;margin:auto">
+                  <div style="background:#0d0d1a;padding:20px;text-align:center">
+                    <h1 style="color:#d4af37;margin:0">📸 Thathvamasi Clicks</h1>
+                    <p style="color:#fff;margin:6px 0">Capturing Moments, Creating Memories</p>
+                  </div>
+                  <div style="padding:30px;background:#fff">
+                    <h2 style="color:#0d0d1a">Hi {d.get('full_name','')}! 🎉</h2>
+                    <p style="color:#555;line-height:1.7">
+                      Thank you for booking with <b>Thathvamasi Clicks</b>!
+                      Your booking has been received and our team will
+                      contact you shortly to confirm the details.
+                    </p>
+                    <div style="background:#f9f9f9;border-left:4px solid #d4af37;
+                                padding:16px;margin:20px 0;border-radius:4px">
+                      <h3 style="color:#0d0d1a;margin-top:0">Booking Summary</h3>
+                      <p style="margin:6px 0"><b>Booking ID:</b> #{bid}</p>
+                      <p style="margin:6px 0"><b>Event:</b> {d.get('event_type','')}</p>
+                      <p style="margin:6px 0"><b>Date:</b> {d.get('event_date','')}</p>
+                      <p style="margin:6px 0"><b>Time:</b> {d.get('start_time','')} – {d.get('end_time','')}</p>
+                      <p style="margin:6px 0"><b>Venue:</b> {d.get('venue_name','')}, {d.get('city','')}</p>
+                      <p style="margin:6px 0"><b>Package:</b> {d.get('package','').title()}</p>
+                    </div>
+                    <p style="color:#555">
+                      For queries: <b>+91 89391 16189</b><br>
+                      Email: thathvamasi.clicks@gmail.com
+                    </p>
+                    <p style="color:#555">
+                      With love,<br>
+                      <b style="color:#0d0d1a">Team Thathvamasi Clicks</b>
+                    </p>
+                  </div>
+                  <div style="background:#0d0d1a;padding:15px;text-align:center">
+                    <p style="color:#d4af37;margin:0;font-size:12px">
+                      © 2024 Thathvamasi Clicks | Pallipalayam, Erode, Tamil Nadu
+                    </p>
+                  </div>
+                </div>"""
+            })
+            print("✅ Client confirmation email sent via Resend!")
         except Exception as e:
-            print(f"❌ Client email FAILED: {e}")
+            print(f"❌ Client Resend error: {e}")
 
         return jsonify({
             'success':    True,
@@ -270,15 +333,13 @@ def add_review():
             cur = conn.cursor()
             cur.execute(
                 "INSERT INTO testimonials(name,location,rating,message) VALUES(%s,%s,%s,%s)",
-                (d.get('name',''),d.get('location',''),d.get('rating',5),d.get('message',''))
+                (d.get('name',''), d.get('location',''),
+                 d.get('rating',5), d.get('message',''))
             )
             conn.commit(); cur.close(); conn.close()
     except Exception as e:
         print(f"❌ Review error: {e}")
     return jsonify({'success':True})
-@app.route('/ping')
-def ping():
-    return 'pong', 200
 
 
 # ── RUN ──────────────────────────────────────────────
