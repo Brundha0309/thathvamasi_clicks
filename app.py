@@ -15,9 +15,16 @@ FROM_EMAIL = 'onboarding@resend.dev'
 def get_db():
     try:
         host = os.environ.get('MYSQLHOST', 'localhost')
+        
+        # Get port safely
+        try:
+            port = int(os.environ.get('MYSQLPORT', '3306').strip())
+        except:
+            port = 3306
+
         conn_args = {
             'host':               host,
-            'port':               int(os.environ.get('MYSQLPORT', 3306)),
+            'port':               port,
             'database':           os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
             'user':               os.environ.get('MYSQLUSER', 'root'),
             'password':           os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
@@ -25,6 +32,7 @@ def get_db():
         }
         if 'aivencloud' in host:
             conn_args['ssl_disabled'] = False
+
         conn = mysql.connector.connect(**conn_args)
         print("✅ DB Connected")
         return conn
