@@ -11,48 +11,105 @@ resend.api_key = os.environ.get('RESEND_API_KEY', 're_ULkbrxc9_JZFczrV9s3YNArATw
 PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
 FROM_EMAIL = 'onboarding@resend.dev'
 
-# ── DATABASE ─────────────────────────────────────────
-def get_db():
-    try:
-        host = os.environ.get('MYSQLHOST', 'localhost')
-        
-        # Force port to integer safely
-        raw_port = os.environ.get('MYSQLPORT', '3306')
-        try:
-            port = int(str(raw_port).strip())
-        except (ValueError, TypeError):
-            port = 3306
-        
-        print(f"🔌 Connecting to {host}:{port}")
+# ── DATABASE CONFIG ──────────────────────────────────
+DB_CONFIG = {
+    'host': os.environ.get('MYSQLHOST', 'localhost'),
+    'port': int(os.environ.get('MYSQLPORT', '3306')),
+    'user': os.environ.get('MYSQLUSER', 'root'),
+    'password': os.environ.get('MYSQLPASSWORD', ''),  # Empty password
+    'database': os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
+    'connection_timeout': 30,
+    'use_pure': True
+}
 
+def get_db_connection(database=None):
+    """Get database connection, optionally with specific database"""
+    try:
         conn_args = {
-            'host':               host,
-            'port':               port,
-            'database':           os.environ.get('MYSQLDATABASE', 'thathvamasi_db'),
-            'user':               os.environ.get('MYSQLUSER', 'root'),
-            'password':           os.environ.get('MYSQLPASSWORD', 'Brundha@0309'),
-            'connection_timeout': 30,
+            'host': DB_CONFIG['host'],
+            'port': DB_CONFIG['port'],
+            'user': DB_CONFIG['user'],
+            'password': DB_CONFIG['password'],
+            'connection_timeout': DB_CONFIG['connection_timeout'],
+            'use_pure': DB_CONFIG['use_pure']
         }
         
-        if 'aivencloud' in host:
+        # Add database if specified
+        if database:
+            conn_args['database'] = database
+        
+        # Handle SSL for cloud hosts
+        if 'aivencloud' in DB_CONFIG['host']:
             conn_args['ssl_disabled'] = False
-
+            
         conn = mysql.connector.connect(**conn_args)
-        print("✅ DB Connected")
         return conn
     except Error as e:
-        print(f"❌ DB Error: {e}")
+        print(f"❌ DB Connection Error: {e}")
         return None
 
-    
+def create_database_if_not_exists():
+    """Create database if it doesn't exist"""
+    try:
+        # Connect without specifying a database
+        conn = get_db_connection()
+        if not conn:
+            print("❌ Cannot connect to MySQL server")
+            return False
+            
+        cursor = conn.cursor()
+        
+        # Check if database exists
+        cursor.execute(f"SHOW DATABASES LIKE '{DB_CONFIG['database']}'")
+        result = cursor.fetchone()
+        
+        if not result:
+            print(f"📁 Database '{DB_CONFIG['database']}' not found. Creating...")
+            cursor.execute(f"CREATE DATABASE {DB_CONFIG['database']}")
+            print(f"✅ Database '{DB_CONFIG['database']}' created successfully")
+        else:
+            print(f"✅ Database '{DB_CONFIG['database']}' already exists")
+            
+        cursor.close()
+        conn.close()
+        return True
+        
+    except Error as e:
+        print(f"❌ Error creating database: {e}")
+        return False
+
+def get_db():
+    """Get database connection with database selected"""
+    try:
+        # First ensure database exists
+        if not create_database_if_not_exists():
+            return None
+            
+        # Now connect with database
+        conn = get_db_connection(DB_CONFIG['database'])
+        if conn:
+            print(f"🔌 Connected to {DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}")
+            print("✅ DB Connected")
+        return conn
+    except Error as e:
+        print(f"❌ DB Connection Error: {e}")
+        return None
+    except Exception as e:
+        print(f"❌ Unexpected error: {type(e).__name__}: {e}")
+        return None
+
 def init_db():
+    """Initialize database tables"""
     conn = get_db()
     if not conn:
         print("⚠️ No DB connection")
-        return
+        return False
+    
     try:
-        cur = conn.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS bookings(
+        cursor = conn.cursor()
+        
+        # Create bookings table
+        cursor.execute("""CREATE TABLE IF NOT EXISTS bookings(
             id INT AUTO_INCREMENT PRIMARY KEY,
             full_name VARCHAR(100) NOT NULL,
             mobile VARCHAR(20) NOT NULL,
@@ -68,7 +125,10 @@ def init_db():
             special_requests TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )""")
-        cur.execute("""CREATE TABLE IF NOT EXISTS contacts(
+        print("✅ Bookings table ready")
+        
+        # Create contacts table
+        cursor.execute("""CREATE TABLE IF NOT EXISTS contacts(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             email VARCHAR(100) NOT NULL,
@@ -77,7 +137,10 @@ def init_db():
             message TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )""")
-        cur.execute("""CREATE TABLE IF NOT EXISTS testimonials(
+        print("✅ Contacts table ready")
+        
+        # Create testimonials table
+        cursor.execute("""CREATE TABLE IF NOT EXISTS testimonials(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             location VARCHAR(100),
@@ -85,34 +148,46 @@ def init_db():
             message TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )""")
+        print("✅ Testimonials table ready")
+        
         conn.commit()
-        cur.close()
+        cursor.close()
         conn.close()
-        print("✅ Tables Ready")
+        print("✅ All tables ready")
+        return True
+        
     except Exception as e:
-        print(f"❌ Table error: {e}")
+        print(f"❌ Table creation error: {e}")
+        return False
 
 # ── ROUTES ───────────────────────────────────────────
 @app.route('/')
-def home(): return render_template('index.html')
+def home(): 
+    return render_template('index.html')
 
 @app.route('/ping')
-def ping(): return 'pong', 200
+def ping(): 
+    return 'pong', 200
 
 @app.route('/about')
-def about(): return render_template('about.html')
+def about(): 
+    return render_template('about.html')
 
 @app.route('/services')
-def services(): return render_template('services.html')
+def services(): 
+    return render_template('services.html')
 
 @app.route('/portfolio')
-def portfolio(): return render_template('portfolio.html')
+def portfolio(): 
+    return render_template('portfolio.html')
 
 @app.route('/pricing')
-def pricing(): return render_template('packages.html')
+def pricing(): 
+    return render_template('packages.html')
 
 @app.route('/testimonials')
-def testimonials(): return render_template('testimonials.html')
+def testimonials(): 
+    return render_template('testimonials.html')
 
 @app.route('/contact', methods=['GET','POST'])
 def contact():
@@ -125,15 +200,18 @@ def contact():
         try:
             conn = get_db()
             if conn:
-                cur = conn.cursor()
-                cur.execute(
+                cursor = conn.cursor()
+                cursor.execute(
                     "INSERT INTO contacts(name,email,mobile,subject,message) VALUES(%s,%s,%s,%s,%s)",
                     (d.get('name',''), d.get('email',''), d.get('mobile',''),
                      d.get('subject',''), d.get('message',''))
                 )
-                conn.commit(); cur.close(); conn.close()
+                conn.commit()
+                cursor.close()
+                conn.close()
+                print("✅ Contact saved to database")
         except Exception as e:
-            print(f"❌ Contact DB: {e}")
+            print(f"❌ Contact DB error: {e}")
 
         # Send email via Resend
         try:
@@ -167,7 +245,6 @@ def contact():
         return jsonify({'success':True,'message':'Message sent successfully!'})
     return render_template('contact.html')
 
-
 @app.route('/booknow', methods=['GET','POST'])
 def booknow():
     if request.method == 'POST':
@@ -182,8 +259,8 @@ def booknow():
         try:
             conn = get_db()
             if conn:
-                cur = conn.cursor()
-                cur.execute("""INSERT INTO bookings(
+                cursor = conn.cursor()
+                cursor.execute("""INSERT INTO bookings(
                     full_name,mobile,email,event_type,event_date,
                     start_time,end_time,venue_name,city,
                     full_address,package,special_requests
@@ -196,8 +273,9 @@ def booknow():
                     d.get('special_requests','')
                 ))
                 conn.commit()
-                bid = cur.lastrowid
-                cur.close(); conn.close()
+                bid = cursor.lastrowid
+                cursor.close()
+                conn.close()
                 print(f"✅ Booking saved — ID #{bid}")
             else:
                 bid = "N/A"
@@ -329,13 +407,12 @@ def booknow():
             print(f"❌ Client Resend error: {e}")
 
         return jsonify({
-            'success':    True,
-            'message':    f'Booking confirmed! ID #{bid}. Check your email.',
+            'success': True,
+            'message': f'Booking confirmed! ID #{bid}. Check your email.',
             'booking_id': bid
         })
 
     return render_template('booknow.html')
-
 
 @app.route('/api/review', methods=['POST'])
 def add_review():
@@ -343,20 +420,30 @@ def add_review():
     try:
         conn = get_db()
         if conn:
-            cur = conn.cursor()
-            cur.execute(
+            cursor = conn.cursor()
+            cursor.execute(
                 "INSERT INTO testimonials(name,location,rating,message) VALUES(%s,%s,%s,%s)",
                 (d.get('name',''), d.get('location',''),
                  d.get('rating',5), d.get('message',''))
             )
-            conn.commit(); cur.close(); conn.close()
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print("✅ Review saved to database")
     except Exception as e:
         print(f"❌ Review error: {e}")
     return jsonify({'success':True})
 
-
 # ── RUN ──────────────────────────────────────────────
 if __name__ == '__main__':
-    init_db()
+    print("🚀 Starting Thathvamasi Clicks Application...")
+    
+    # Initialize database
+    if init_db():
+        print("✅ Database initialized successfully")
+    else:
+        print("⚠️ Database initialization failed - running in email-only mode")
+    
     port = int(os.environ.get('PORT', 10000))
+    print(f"🌐 Server running on port {port}")
     app.run(debug=False, host='0.0.0.0', port=port)
