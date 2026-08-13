@@ -2,5 +2,6 @@ services:
   - type: web
     name: thathvamasi-clicks
     env: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
