@@ -7,9 +7,9 @@ from mysql.connector import Error
 app = Flask(__name__)
 
 # ── RESEND EMAIL CONFIG ───────────────────────────────
-resend.api_key = os.environ.get('RESEND_API_KEY', 're_ULkbrxc9_JZFczrV9s3YNArATwdpPUwZ7')
-PHOTOGRAPHER_EMAIL = 'thathvamasi.clicks@gmail.com'
-FROM_EMAIL = 'onboarding@resend.dev'
+resend.api_key = os.environ.get('RESEND_API_KEY')
+PHOTOGRAPHER_EMAIL = os.environ.get('PHOTOGRAPHER_EMAIL', 'brundhac03@gmail.com')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'onboarding@resend.dev')
 
 # ── DATABASE CONFIG ──────────────────────────────────
 DB_CONFIG = {
@@ -218,6 +218,7 @@ def contact():
             resend.Emails.send({
                 "from": f"Thathvamasi Clicks <{FROM_EMAIL}>",
                 "to": [PHOTOGRAPHER_EMAIL],
+                "reply_to": d.get('email',''),
                 "subject": f"New Contact: {d.get('subject','General Inquiry')}",
                 "html": f"""
                 <div style="font-family:Arial;max-width:600px;margin:auto">
@@ -290,6 +291,7 @@ def booknow():
             resend.Emails.send({
                 "from": f"Thathvamasi Clicks <{FROM_EMAIL}>",
                 "to": [PHOTOGRAPHER_EMAIL],
+                "reply_to": d.get('email',''),
                 "subject": f"📸 New Booking #{bid} — {d.get('event_type','')}",
                 "html": f"""
                 <div style="font-family:Arial;max-width:600px;margin:auto">
