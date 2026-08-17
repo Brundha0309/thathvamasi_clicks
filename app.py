@@ -5,11 +5,11 @@ import mysql.connector
 from mysql.connector import Error
 
 app = Flask(__name__)
-
+ 
 # ── RESEND EMAIL CONFIG ───────────────────────────────
 resend.api_key = os.environ.get('RESEND_API_KEY')
-PHOTOGRAPHER_EMAIL = os.environ.get('PHOTOGRAPHER_EMAIL', 'brundhac03@gmail.com')
-FROM_EMAIL = os.environ.get('FROM_EMAIL', 'onboarding@resend.dev')
+PHOTOGRAPHER_EMAIL = os.environ.get('PHOTOGRAPHER_EMAIL', 'thathvamasi.clicks@gmail.com')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'hello@thathvamasiclicks.com')
 
 # ── DATABASE CONFIG ──────────────────────────────────
 DB_CONFIG = {
