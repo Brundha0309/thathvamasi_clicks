@@ -346,15 +346,14 @@ section { padding: 100px 40px; }
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px; margin-top: 50px; max-width: 1100px; margin-inline: auto;
 }
-.pricing-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(212,175,55,0.15);
-  border-radius: 8px; padding: 36px 30px;
-  position: relative; transition: all 0.4s;
-}
-.pricing-card:hover, .pricing-card.featured {
+.pricing-card:hover {
   border-color: var(--gold);
   background: rgba(212,175,55,0.06);
+  transform: translateY(-4px);
+}
+
+.pricing-card.featured {
+  background: rgba(212,175,55,0.02);
   transform: translateY(-4px);
 }
 .pricing-card.featured { border-width: 2px; }
