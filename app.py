@@ -186,8 +186,26 @@ def pricing():
     return render_template('packages.html')
 
 @app.route('/testimonials')
-def testimonials(): 
-    return render_template('testimonials.html')
+def testimonials():
+    reviews = []
+    try:
+        conn = get_db()
+        if conn:
+            cur = conn.cursor(dictionary=True)
+            cur.execute("""
+                SELECT name, location, rating, message, created_at
+                FROM testimonials
+                ORDER BY created_at DESC
+            """)
+            reviews = cur.fetchall()
+            cur.close()
+            conn.close()
+            print(f"✅ Loaded {len(reviews)} reviews from DB")
+    except Exception as e:
+        print(f"❌ Testimonials DB error: {e}")
+    return render_template('testimonials.html', db_reviews=reviews)
+
+
 
 @app.route('/contact', methods=['GET','POST'])
 def contact():

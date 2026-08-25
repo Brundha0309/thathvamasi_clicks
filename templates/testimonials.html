@@ -43,6 +43,27 @@
     {% endfor %}
   </div>
   {% endif %}
+  <!-- ══ DATABASE REVIEWS (real customer reviews) ══ -->
+{% if db_reviews %}
+<div class="testimonials-grid" style="max-width:1100px;margin:0 auto 40px">
+  {% for r in db_reviews %}
+  <div class="testimonial-card reveal">
+    <div class="stars">
+      {% for i in range(r.rating) %}★{% endfor %}
+      {% for i in range(5 - r.rating) %}☆{% endfor %}
+    </div>
+    <p class="testimonial-text">"{{ r.message }}"</p>
+    <div class="testimonial-author">
+      <div class="author-avatar">{{ r.name[0] }}</div>
+      <div>
+        <div class="author-name">{{ r.name }}</div>
+        <div class="author-loc">{{ r.location or 'Tamil Nadu' }}</div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 
   <!-- Static testimonials -->
   <div class="testimonials-grid" style="max-width:1100px;margin:0 auto">
